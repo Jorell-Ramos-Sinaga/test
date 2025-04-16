@@ -1,38 +1,14 @@
 # Latihan Soal Modul 2 Praktikum Sistem Operasi
 
-## 📝 Aturan Pengerjaan
+---
+| **Identitas Diri**           |
+|------------------------------|
+| Nama  : Jorell Ramos Sinaga  |
+| NIM   : 5025241202           |
+| Kelas : E                    |
+| Kelompok : E07               |
 
-- Yang dikumpulkan hanyalah file dengan format nama `NRP_Nama_Latihan_2.md`.
-- File tersebut merupakan **laporan** yang berisi penjelasan tentang program yang dibuat untuk setiap soal.
-- Semua soal **wajib dikerjakan menggunakan bahasa pemrograman C**.
-- Laporan ditulis dalam **format Markdown** dengan memperhatikan kaidah penulisan Markdown yang baik.
-- **Gunakan format penamaan file yang sesuai dengan ketentuan.**
-
-## 📋 Isi Laporan
-
-Laporan harus memuat informasi berikut:
-
-1. Identitas diri:
-
-   - NRP
-   - Nama
-   - Kelas
-   - Kelompok
-
-2. Program yang telah dibuat
-3. Penjelasan tentang program yang dibuat
-4. Hasil output dari program yang telah dibuat
-5. Penjelasan tentang hasil output yang diperoleh
-6. Screenshot hasil output yang diperoleh
-   (clue: upload terlebih dahulu gambarnya ke cloud storage/image hosting/apapun yang bisa diakses publik, lalu masukkan linknya ke dalam laporan)
-
-> Catatan: Silahkan explorasi lebih lanjut tentang Markdown untuk mempercantik laporan. (Hitung-hitung sebagai latihan dalam menulis laporan resmi praktikum)
-
-## 📅 Deadline Pengumpulan
-
-- Laporan dikumpulkan melalui **Google Form** berikut: [Link](https://docs.google.com/forms/d/e/1FAIpQLSfFN8E-J2207l1uGYY9PzOCL6VOHs_aL-Us41juNDXWxEUzeg/viewform?usp=dialog)
-- Batas akhir pengumpulan: **16 April 2025 pukul 23.59 WIB**
-
+---
 ## 1. Process
 
 **Deskripsi:**
@@ -554,7 +530,7 @@ aku lagi belajar ipc
 
 ## Kode 4b
 #### `sender.c`
-```
+```c
 #include <stdio.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
@@ -588,7 +564,7 @@ int main() {
 ```
 
 #### `receiver.c`
-```
+```c
 #include <stdio.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
@@ -653,4 +629,79 @@ Jika program berjalan seperti yang diharapkan, maka message queue bekerja sebaga
 #### **Screenshoot Output:**
 <div align="center">
   <img src="https://drive.google.com/uc?export=view&id=16ZCOSL5r2G6po4q3Y3DCYX1tlOXajfAl" width="600"/>
+</div>
+
+---
+
+## Kode 4c
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
+int main() {
+    int fd[2];
+    pid_t pid;
+    char pesan[] = "hai, anak sisop 24";
+    char buffer[100];
+
+    pipe(fd);
+
+    pid = fork();
+
+    if (pid > 0) {
+        close(fd[0]); 
+        write(fd[1], pesan, strlen(pesan) + 1);
+        close(fd[1]); 
+    } else {
+
+        close(fd[1]);
+        read(fd[0], buffer, sizeof(buffer));
+        printf("Pesan dari parent: %s\n", buffer);
+        close(fd[0]);
+    }
+
+    return 0;
+}
+```
+
+#### **Penjelasan Kode:**
+- Variabel :
+  - `fd[2]`: array dua elemen untuk menampung file descriptor pipe.
+  - `pid`: akan menyimpan hasil dari `fork()`.
+  - `pesan[]`: string yang dikirim oleh proses parent ke child.
+  - `buffer[]`: tempat menyimpan pesan yang dibaca oleh child.
+- `pipe(fd)`: membuat saluran komunikasi (pipe).
+- `fork()`: menduplikasi proses.
+- Proses Parent (`pid > 0`):
+  - `close(fd[0])` : Parent tidak perlu membaca, jadi tutup bagian read.
+  - `write(fd[1], pesan, strlen(pesan) + 1)`: kirim string ke pipe. `strlen(pesan) + 1`: agar karakter null-terminator (\0) juga ikut dikirim.
+  - `close(fd[1])`: Selesai menulis, tutup bagian write-nya.
+- Proses Child (`pid < 0`):
+  - `close(fd[1])`: Child tidak perlu menulis, tutup bagian write.
+  - `read(fd[0], buffer, sizeof(buffer))`: baca data dari pipe ke buffer.
+  - `printf(...)`: tampilkan isi buffer ke layar.
+  - `close(fd[0])`: Selesai membaca, tutup bagian read.
+
+  
+## Output
+#### **Hasil:**
+
+```
+Pesan dari parent: hai, anak sisop 24
+```
+
+#### **Penjelasan Hasil:**
+1. Proses Parent
+   - Mengirimkan string `"hai, anak sisop 24"` ke child melalui `pipe`.
+   - Tidak menampilkan apa-apa di layar karena tugasnya hanya mengirim.
+2. Proses Child
+   - Menerima data dari pipe menggunakan `read()`.
+   - Data tersebut disimpan di dalam variabel `buffer`.
+   - Kemudian, mencetak isi `buffer` ke layar dengan `printf()`.
+
+#### **Screenshoot Output:**
+<div align="center">
+  <img src="https://drive.google.com/uc?export=view&id=1PTaCUffPnmKgCpQFSOEUHPQ_8wk204Oh" width="600"/>
 </div>
