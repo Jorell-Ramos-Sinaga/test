@@ -93,10 +93,11 @@ Terbuatnya direktori `halo` karena `mkdir`, `hai.txt` karena `touch`, dan salina
 
 **Screenshoot Output**
 <div align="center">
-  <img src="https://drive.google.com/uc?export=view&id=1VlJV10nqEdmO6_UITSVdF_jU9-G_Vkbb" width="400"/>
+  <img src="https://drive.google.com/uc?export=view&id=1VlJV10nqEdmO6_UITSVdF_jU9-G_Vkbb" width="600"/>
+</div>
+<div align="center">
   <img src="https://drive.google.com/uc?export=view&id=12nPZVO8LlxbskknFdafe-RLTKkwQH2Pz" width="400"/>
 </div>
-
 ---
 
 ## 2. Thread
