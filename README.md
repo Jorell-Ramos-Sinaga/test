@@ -64,6 +64,38 @@ Direktori/
 - Semua proses ditulis dalam **satu file C**.
 - Program dijalankan **sekali saja**.
 
+## Kode 
+```Shell
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+system("mkdir /home/ubuntu/halo");
+system("touch /home/ubuntu/halo/hai.txt");
+system("cp /home/ubuntu/halo/hai.txt /home/ubuntu/");
+
+return 0;
+}
+
+```
+**Penjelasan Kode:**
+1. Menggunakan fungsi `system` untuk menjalankan untuk melakukan pemanggilan perintah shell secara langsung dari program C.
+   - `mkdir /home/ubuntu/halo` untuk membuat sebuah directory bernama `halo`
+   - `touch /home/ubuntu/halo/hai.txt` untuk membuat suatu file `hai.txt` di directory `halo`
+   - `cp /home/ubuntu/halo/hai.txt /home/ubuntu/` untuk mengcopy file `hai.txt` yang dibuat tadi ke directory awal `/home/ubuntu`
+
+## Output
+**Hasil:**
+Hasil berupa suatu directory bernama `halo` yang memuat file `hai.txt`, dan salinan file `hai.txt` di directory yang memuat `process.c`
+
+**Penjelasan Hasil:**
+Terbuatnya direktori `halo` karena `mkdir`, `hai.txt` karena `touch`, dan salinan `hai.txt`karena `cp` yang dipanggil oleh fungsi `system` di `process.c`
+
+**Screenshoot Output**
+https://drive.google.com/file/d/1VlJV10nqEdmO6_UITSVdF_jU9-G_Vkbb/view?usp=sharing
+![Screenshot Output](https://drive.google.com/uc?export=view&id=1VlJV10nqEdmO6_UITSVdF_jU9-G_Vkbb)
+![Screenshot Output](https://drive.google.com/uc?export=view&id=12nPZVO8LlxbskknFdafe-RLTKkwQH2Pz)
+
 ---
 
 ## 2. Thread
