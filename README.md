@@ -65,7 +65,7 @@ Direktori/
 - Program dijalankan **sekali saja**.
 
 ## Kode 
-```Shell
+```c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -143,7 +143,7 @@ c. **Thread 3:** Menulis semua angka **genap** dari 1–100 ke file `count_2.txt
 > Setiap kali program dijalankan, bisa saja urutan thread yang selesai berbeda-beda.
 
 ## Kode 
-```Shell
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -341,7 +341,7 @@ thread 5 count 3
 ```
 
 ## Kode 
-```Shell
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -546,7 +546,111 @@ aku lagi belajar ipc
 - Setelah membaca, `receiver.c` juga menghapus shared memory dari sistem dengan `shmctl(..., IPC_RMID, NULL);`, agar tidak menumpuk di memori.
 
 #### **Screenshoot Output:**
-1. `log.txt`
 <div align="center">
   <img src="https://drive.google.com/uc?export=view&id=1jLnBF5sKxKLhrb04f_60fj8Xnu2O0dxf" width="600"/>
+</div>
+
+---
+
+## Kode 4b
+#### `sender.c`
+```
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <string.h>
+
+#define MAX 100
+
+struct mesg_buffer {
+    long mesg_type;
+    char mesg_text[MAX];
+};
+
+int main() {
+    key_t key;
+    int msgid;
+    struct mesg_buffer message;
+
+    key = ftok("progfile", 65);
+
+    msgid = msgget(key, 0666 | IPC_CREAT);
+
+    message.mesg_type = 1;
+    strcpy(message.mesg_text, "yah belajar ipc mulu");
+
+    msgsnd(msgid, &message, sizeof(message.mesg_text), 0);
+
+    printf("Data yang dikirim: %s\n", message.mesg_text);
+
+    return 0;
+}
+```
+
+#### `receiver.c`
+```
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
+#define MAX 100
+
+struct mesg_buffer {
+    long mesg_type;
+    char mesg_text[MAX];
+};
+
+int main() {
+    key_t key;
+    int msgid;
+    struct mesg_buffer message;
+
+    key = ftok("progfile", 65);
+
+    msgid = msgget(key, 0666 | IPC_CREAT);
+
+    msgrcv(msgid, &message, sizeof(message.mesg_text), 1, 0);
+
+    printf("Data yang diterima: %s\n", message.mesg_text);
+
+    msgctl(msgid, IPC_RMID, NULL);
+
+    return 0;
+}
+
+```
+
+#### **Penjelasan Kode:**
+1. `sender.c`
+   - Membuat struct `struct mesg_buffer`. `long mesg_type` untuk mengelompokkan atau membedakan pesan di dalam satu message queue. `char mesg_text[100]` untuk menyimpan isi pesan.
+   - `key = ftok("progfile", 65)` : Membuat key unik menggunakan `ftok`.
+   - `msgid = msgget(key, 0666 | IPC_CREAT)` : Membuat atau mengakses message queue berdasarkan key.
+   - `message.mesg_type = 1; strcpy(message.mesg_text, "yah belajar ipc mulu");` : Menentukan jenis pesan (`mesg_type`) dan mengisi isi pesan (`mesg_text`). Jika belum ada, maka queue akan dibuat dengan permission `0666`.
+   - `msgsnd(msgid, &message, sizeof(message.mesg_text), 0)` : Mengirimkan pesan ke message queue.
+   - `printf("Data yang dikirim: %s\n", message.mesg_text)` : Menampilkan pesan yang dikirim.
+2. `receiver.c`
+   - struct yang sama dengan di `sender.c`.
+   - `key = ftok("progfile", 65)` : Membuat key unik menggunakan `ftok` yang sama dengan `sender`.
+   - `msgid = msgget(key, 0666 | IPC_CREAT)` : Membuat atau mengakses message queue berdasarkan key.
+   - `msgrcv(msgid, &message, sizeof(message.mesg_text), 1, 0)` : Menerima pesan dengan `mesg_type = 1`. Pesan disimpan ke dalam struktur `message`.
+   - `printf("Data yang dikirim: %s\n", message.mesg_text)` : Menampilkan isi pesan.
+   - `msgctl(msgid, IPC_RMID, NULL)` : Menghapus message queue dari sistem setelah pesan diterima, agar tidak menumpuk di memori.
+  
+## Output
+#### **Hasil:**
+
+```
+Data yang dikirim: yah belajar ipc mulu
+Data yang diterima: yah belajar ipc mulu
+```
+
+#### **Penjelasan Hasil:**
+
+Output menunjukkan bahwa pesan berhasil dikirim dari satu proses (sender) ke proses lainnya (receiver) menggunakan message queue. Proses receiver menerima pesan yang persis sama seperti yang dikirim oleh sender, menunjukkan bahwa IPC berhasil dilakukan dengan benar.
+
+Jika program berjalan seperti yang diharapkan, maka message queue bekerja sebagai media komunikasi antar proses secara efektif di sistem operasi.
+
+#### **Screenshoot Output:**
+<div align="center">
+  <img src="https://drive.google.com/uc?export=view&id=16ZCOSL5r2G6po4q3Y3DCYX1tlOXajfAl" width="600"/>
 </div>
