@@ -340,6 +340,104 @@ thread 1 count 1
 thread 5 count 3
 ```
 
+## Kode 
+```Shell
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+
+#define THREAD_COUNT 5
+
+pthread_mutex_t lock;
+
+void* count_and_log(void* arg) {
+    int id = *((int*)arg);
+
+    pthread_mutex_lock(&lock);
+    FILE* file = fopen("log.txt", "a");
+
+    for (int i = 1; i <= 3; ++i) {
+        fprintf(file, "thread %d count %d\n", id, i);
+        fflush(file);
+        sleep(1);
+    }
+
+    fclose(file);
+    pthread_mutex_unlock(&lock);
+    return NULL;
+}
+
+int main() {
+    pthread_t threads[THREAD_COUNT];
+    int thread_ids[THREAD_COUNT];
+
+    pthread_mutex_init(&lock, NULL);
+
+    for (int i = 0; i < THREAD_COUNT; ++i) {
+        thread_ids[i] = i + 1;
+        pthread_create(&threads[i], NULL, count_and_log, &thread_ids[i]);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; ++i) {
+        pthread_join(threads[i], NULL);
+    }
+
+    pthread_mutex_destroy(&lock);
+
+    return 0;
+}
+
+```
+#### **Penjelasan Kode:**
+1. Global Variable
+   - `#define MAX_THREADS 5` untuk deklarasi berapa thread yang kita jalankan.
+   - `pthread_mutex_t lock` untuk deklarasi mutex global yang akan dipakai untuk mengatur file tidak ditulis berbagai thread sekaligus.
+2. Fungsi `count_and_log`
+   - `arg` sebagai pointer id thread
+   - `pthread_mutex_lock(&lock)` untuk mengunci mutex sebelum menulis file, agar cuman thread sekarang yang mengakses file saat ini.
+   - membuka file `log.txt` dengan `fopen` dalam mode append `a` agar tidak menghapus penulisan thread sebelumnya jika ini bukan thread pertama yang menulis di file.
+   - looping `for` untuk mencetak 1-3 dan menuliskan thread yang mana yang sedang menuliskan.
+   - `fflush(file)` untuk memastikan data segera ditulis ke disk.
+   - `sleep(1)` membuat jeda 1 detik antara setiap penulisan (untuk simulasi lambat dan agar urutan lebih jelas terlihat).
+   - mentutup file kembali dengan `fclose`.
+   - melepaskan thread ini agar thread lain bisa menulis dengan `pthread_mutex_unlock(&lock)`.
+3.  Fungsi `main`
+    - `pthread_t threads[THREAD_COUNT];` mempersiapkan 5 thread sesuai dengan `MAX_THREADS`.
+    - `int thread_ids[THREAD_COUNT]` untuk menandakan thread dengan id yang akan digunakan saat print di file.
+    - `pthread_mutex_init(&lock, NULL)` meng-inisialisasi mutex sebelum digunakan.
+    - looping `pthread_create(&threads[i], NULL, count_and_log, &thread_ids[i])` untuk membuat 5 thread dan menandakan setiap thread dengan id, kemudian menjalankan fungsi `count_and_log`.
+    - looping `pthread_join(threads[i], NULL)` untuk menunggu semua thread selesai menjalankan tugasnya.
+    - Membersihkan mutex setelah selesai dengan `pthread_mutex_destroy(&lock)`.
+
+
+## Output
+#### **Hasil:**
+
+1. contoh hasil `count.txt`
+   ```
+   thread 3 count 1
+   thread 3 count 2
+   thread 3 count 3
+   thread 1 count 1
+   ...
+   thread 5 count 3
+   ```
+
+#### **Penjelasan Hasil:**
+- Setiap thread melakukan counting dari 1 hingga 3 dan menuliskannya ke file log.txt.
+- Karena digunakan pthread_mutex, maka:
+  - Hanya satu thread yang dapat menulis ke file pada satu waktu (critical section).
+  - Oleh karena itu, output dari setiap thread tidak akan tumpang tindih dengan thread lain.
+- Fungsi sleep(1) digunakan untuk memberikan jeda antar penulisan agar lebih mudah melihat perbedaan antar thread.
+- Urutan thread dalam file bisa berbeda setiap kali program dijalankan karena eksekusi thread ditentukan oleh penjadwalan OS, namun isi setiap blok tetap konsisten.
+
+#### **Screenshoot Output:**
+1. `log.txt`
+<div align="center">
+  <img src="https://drive.google.com/uc?export=view&id=1o-sFi5DA5wzXRHkQaDmJQguFzhI098w-" width="600"/>
+</div>
+
 ---
 
 ## 4. IPC
