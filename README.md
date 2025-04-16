@@ -92,9 +92,10 @@ Hasil berupa suatu directory bernama `halo` yang memuat file `hai.txt`, dan sali
 Terbuatnya direktori `halo` karena `mkdir`, `hai.txt` karena `touch`, dan salinan `hai.txt`karena `cp` yang dipanggil oleh fungsi `system` di `process.c`
 
 **Screenshoot Output**
-https://drive.google.com/file/d/1VlJV10nqEdmO6_UITSVdF_jU9-G_Vkbb/view?usp=sharing
-![Screenshot Output](https://drive.google.com/uc?export=view&id=1VlJV10nqEdmO6_UITSVdF_jU9-G_Vkbb)
-![Screenshot Output](https://drive.google.com/uc?export=view&id=12nPZVO8LlxbskknFdafe-RLTKkwQH2Pz)
+<div align="center">
+  <img src="https://drive.google.com/uc?export=view&id=1VlJV10nqEdmO6_UITSVdF_jU9-G_Vkbb" width="400"/>
+  <img src="https://drive.google.com/uc?export=view&id=12nPZVO8LlxbskknFdafe-RLTKkwQH2Pz" width="400"/>
+</div>
 
 ---
 
