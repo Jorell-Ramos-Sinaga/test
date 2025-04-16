@@ -435,7 +435,7 @@ int main() {
 #### **Screenshoot Output:**
 1. `log.txt`
 <div align="center">
-  <img src="https://drive.google.com/uc?export=view&id=1o-sFi5DA5wzXRHkQaDmJQguFzhI098w-" width="600"/>
+  <img src="https://drive.google.com/uc?export=view&id=1klXuR3AWketHV4G_YNkgcIamLfR3jO6A" width="600"/>
 </div>
 
 ---
