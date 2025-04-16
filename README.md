@@ -469,3 +469,84 @@ int main() {
   hai, anak sisop 24
   ```
 - _Child process_ menerima pesan dan menampilkannya ke layar.
+
+---
+
+## Kode 4a
+#### `sender.c`
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+int main() {
+    key_t key = 1234;
+    int shmid = shmget(key, 1024, IPC_CREAT | 0666);
+
+    char *data = (char *) shmat(shmid, NULL, 0);
+
+    strcpy(data, "aku lagi belajar ipc");
+
+    shmdt(data);
+
+    return 0;
+}
+```
+
+#### `receiver.c`
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+int main() {
+    key_t key = 1234;
+    int shmid = shmget(key, 1024, 0666);
+
+    char *data = (char *) shmat(shmid, NULL, 0);
+
+    printf("%s\n", data);
+
+    shmdt(data);
+    shmctl(shmid, IPC_RMID, NULL);
+
+    return 0;
+}
+```
+
+#### **Penjelasan Kode:**
+1. `sender.c`
+   - `key_t key = 1234` : Menetapkan kunci unik untuk shared memory.
+   - `shmget(...)` untuk membuat atau mendapatkan shared memory `IPC_CREAT` dengan ukuran 1024 byte dengan izin `0666`.
+   - Menempelkan shared memory ke alamat proses saat ini dan mengembalikan pointer-nya dengan `char *data = (char *) shmat(shmid, NULL, 0)`.
+   - Menyalin string `"aku lagi belajar ipc"` ke dalam shared memory menggunakan pointer `data` dengan `strcpy`.
+   - `shmdt(data)` untuk melepaskan (detach) shared memory dari alamat proses, tidak menghapus shared memory-nya dari sistem.
+2. `receiver.c`
+   - Mengakses shared memory yang telah dibuat oleh `sender.c` menggunakan `key = 1234` dan ukuran yang sama (1024) dengan `shmget`.
+   - `char *data = (char *) shmat(shmid, NULL, 0)` untuk menempelkan shared memory ke proses `receiver`.
+   - Mencetak isi shared memory dengan `printf`
+   - Melepaskan shared memory dari proses `receiver` dengan `shmdt(data)`.
+   - `shmctl(..., IPC_RMID, NULL)` untuk menghapus shared memory dari sistem.
+  
+## Output
+#### **Hasil:**
+
+```
+aku lagi belajar ipc
+```
+
+#### **Penjelasan Hasil:**
+- Shared memory digunakan sebagai media komunikasi antara dua proses (`sender` dan `receiver`).
+- Karena kedua program menggunakan `key_t key = 1234` dan ukuran memori yang sama (1024 byte), mereka mengakses segmen memori yang sama.
+- `sender.c` menulis pesan ke dalam shared memory.
+- `receiver.c` membaca pesan dari shared memory, lalu menampilkannya ke layar.
+- Setelah membaca, `receiver.c` juga menghapus shared memory dari sistem dengan `shmctl(..., IPC_RMID, NULL);`, agar tidak menumpuk di memori.
+
+#### **Screenshoot Output:**
+1. `log.txt`
+<div align="center">
+  <img src="https://drive.google.com/uc?export=view&id=1jLnBF5sKxKLhrb04f_60fj8Xnu2O0dxf" width="600"/>
+</div>
