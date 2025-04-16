@@ -78,26 +78,29 @@ return 0;
 }
 
 ```
-**Penjelasan Kode:**
+###**Penjelasan Kode:**
 1. Menggunakan fungsi `system` untuk menjalankan untuk melakukan pemanggilan perintah shell secara langsung dari program C.
    - `mkdir /home/ubuntu/halo` untuk membuat sebuah directory bernama `halo`
    - `touch /home/ubuntu/halo/hai.txt` untuk membuat suatu file `hai.txt` di directory `halo`
    - `cp /home/ubuntu/halo/hai.txt /home/ubuntu/` untuk mengcopy file `hai.txt` yang dibuat tadi ke directory awal `/home/ubuntu`
 
 ## Output
-**Hasil:**
+###**Hasil:**
+
 Hasil berupa suatu directory bernama `halo` yang memuat file `hai.txt`, dan salinan file `hai.txt` di directory yang memuat `process.c`
 
-**Penjelasan Hasil:**
+###**Penjelasan Hasil:**
+
 Terbuatnya direktori `halo` karena `mkdir`, `hai.txt` karena `touch`, dan salinan `hai.txt`karena `cp` yang dipanggil oleh fungsi `system` di `process.c`
 
-**Screenshoot Output**
+###**Screenshoot Output:**
 <div align="center">
   <img src="https://drive.google.com/uc?export=view&id=1VlJV10nqEdmO6_UITSVdF_jU9-G_Vkbb" width="600"/>
 </div>
 <div align="center">
-  <img src="https://drive.google.com/uc?export=view&id=12nPZVO8LlxbskknFdafe-RLTKkwQH2Pz" width="400"/>
+  <img src="https://drive.google.com/uc?export=view&id=12nPZVO8LlxbskknFdafe-RLTKkwQH2Pz" width="600"/>
 </div>
+
 ---
 
 ## 2. Thread
