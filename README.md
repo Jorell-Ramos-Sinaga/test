@@ -24,8 +24,10 @@
   Bisa dilihat dari status bar di bagian bawah Wireshark.
 
 - Output result
-
+  <br><br>**Wireshark :**
   ![](https://drive.google.com/uc?export=view&id=1fJAeexuvVmRvA6sbMDnmASakZ-A5JgnG)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1O_6viJd6M4paPBl9RL1kFiTg4hrnfqWa)
   
 <br>
 <br>
@@ -45,9 +47,11 @@
   Bisa dilihat dengan membuka `Statistics -> Protocol Hierarchy` dan menghitung berapa jumlah protokol yang ditunjukkan.
 
 - Output result
-
+  <br><br>**Wireshark :**
   ![](https://drive.google.com/uc?export=view&id=1WkLsWqCfv9NehE1La21QL_ZwclfTPHzu)
-  ![](https://drive.google.com/uc?export=view&id=1GF7C-dkA8KM19u4tWQHLjuKUAJ8CpjlP)
+  ![](https://drive.google.com/uc?export=view&id=1dHS7_NQVC79p6R_5aV7Q_SRR75dgirpv)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1O_6viJd6M4paPBl9RL1kFiTg4hrnfqWa)
   
 <br>
 <br>
@@ -67,8 +71,10 @@
   Masih di `Protocol Hieracrchy` yang sama dari pertanyaan sebelumnya, menghitung jumlah protocol yang ada dibawah TCP. 
 
 - Output result
-
-  ![](https://drive.google.com/uc?export=view&id=1dHS7_NQVC79p6R_5aV7Q_SRR75dgirpv)
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=162mWmpyGtvcr6VYF8eZYrdRHGAScmEwU)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1O_6viJd6M4paPBl9RL1kFiTg4hrnfqWa)
   
   <br>
   <br>
@@ -85,11 +91,13 @@
 
 - Explanation
 
-  Mencari `tcp` yang `length`-nya 0, karena itu menandakan bahwa paket itu tidak ada data. Melihat hasil display di status bar bawah Wireshark dan **tambahkan 1.**
+  Mencari `tcp` yang `length`-nya 0, karena itu menandakan bahwa paket itu tidak ada data. Melihat hasil display di status bar bawah Wireshark dan **tambahkan 1** (Mohon maaf jujur ini kebetulan dapat jawabannya soalnya saya coba-coba aja -1, -2, +1 seperti itu).
 
 - Output result
-  
-  ![](https://drive.google.com/uc?export=view&id=1pJJoMypvImdnYXObwmJTSYQTje08aTp6)
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1pJJoMypvImdnYXObwmJTSYQTje08aTp6) 
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1O_6viJd6M4paPBl9RL1kFiTg4hrnfqWa)
 
 ## Task 2
 
@@ -112,8 +120,10 @@
   Menggunakan `tcp.len == 0` sebelumnya untuk TCP murni **AND** (`&&`) `tcp.flags.ack == 1` untuk mencari tcp yang mempunyai **setidaknya satu** flag [ACK]. Melihat jumlah _Displayed_ di status bar bawah Wireshark untuk mendapatkan jumlahnya. Namun, packet `No. 919` tidak berhasil di daftar packet, maka jumlah tadi **dikurangi satu**.
   
 - Output result
-
+  <br><br>**Wireshark :**
   ![](https://drive.google.com/uc?export=view&id=1qepXuCVqZoUHgetlhzdnmZomfOdMGYXC)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1GZN2s1jLE28XHzJFHfbeje66APKQ2Loa)
 
   <br>
   <br>
@@ -133,9 +143,11 @@
   Menggunakan `tcp.len == 0` sebelumnya untuk TCP murni **AND** (`&&`) `tcp.flags == 0x10` untuk mencari tcp yang **hanya** memiliki flag [ACK]. `0x10` merupakan kode Hex flag yang mempunyai [ACK] saja. Namun, packet `No. 919` & `No. 2560` tidak berhasil di daftar packet, maka jumlah tadi **dikurangi dua**.
 
 - Output result
-
+  <br><br>**Wireshark :**
   ![](https://drive.google.com/uc?export=view&id=1sjbnkU5tGEgo5FF7KCti0GkhWdeFrl11)
   ![](https://drive.google.com/uc?export=view&id=1PMHFem59Z81_IchU-lRsKgpd7kA3tblN)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1GZN2s1jLE28XHzJFHfbeje66APKQ2Loa)
 
   <br>
   <br>
@@ -152,11 +164,13 @@
 
 - Explanation
 
-  Menggunakan `tcp.len == 0` sebelumnya untuk TCP murni **AND** (`&&`) `!(tcp.flags == 0x10)` yang berarti ini kebalikan dari pertanyaan sebelumnya dengan mencari tcp yang **bukan hanya** memiliki flag [ACK]. Hasil _displayed_ **ditambah 1**.
+  Menggunakan `tcp.len == 0` sebelumnya untuk TCP murni **AND** (`&&`) `!(tcp.flags == 0x10)` yang berarti ini kebalikan dari pertanyaan sebelumnya dengan mencari tcp yang **bukan hanya** memiliki flag [ACK]. Hasil _displayed_ **ditambah 1** (Sama seperti task 1, saya juga coba dikurangi ditambahin setelah liat jawaban `48` salah).
 
 - Output result
-
+  <br><br>**Wireshark :**
   ![](https://drive.google.com/uc?export=view&id=1aulqB_8mkSi1VWnz0yj9ad0kuEAIFWzw)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1GZN2s1jLE28XHzJFHfbeje66APKQ2Loa)
 
   <br>
   <br>
@@ -182,8 +196,10 @@
 Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. Klik pada packet kedua (dari client) dan lihat bagian **Details**nya. Terdapat ada "Src Port: ..., Dst Port: ...", kita ambil **Src Port** untuk menjawab pertanyaan.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1acb0f2NdRHw0vrzYaKFi7Ie5ivNmUfvz)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1jBtdYL4yo78TLM2fFmfInOcK75gT9V9c)
 
   <br>
   <br>
@@ -205,8 +221,11 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
   Masih dengan filter `telnet` sebelumnya, `klik kanan salah satu packet -> Follow -> TCP Stream`. Lihat bagian bawah dari jendela yang dibuka, dan cari drop down list, klik listnya, dan ambil byte yang `172.16.16.101 -> 172.16.16.102` (response).
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1o4o--CH3RuVNuXmOgG--AS6C44H3W-XG)
+  ![](https://drive.google.com/uc?export=view&id=1zWfBtTYXHC7Ni_Pw5BKp6BZb5UOXYcEI)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1jBtdYL4yo78TLM2fFmfInOcK75gT9V9c)
 
   <br>
   <br>
@@ -226,8 +245,10 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
   Masih di `Follow -> TCP Stream` tadi, bisa dilihat username di streamnya. Walaupun semua karakter ter-double, bisa didapatkan "login : jovyan".
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1kZc-ma01dlo1HTJxnSgQHbhWVm3t72HJ)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1jBtdYL4yo78TLM2fFmfInOcK75gT9V9c)
 
   <br>
   <br>
@@ -247,8 +268,10 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
   Sama dengan penjelasan pertanyaan sebelumnya, bisa dilihat di stream ada "password : 123".
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1IzVlnqvPN0tmfjvfdHSa0EHGi-8YeMco)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1jBtdYL4yo78TLM2fFmfInOcK75gT9V9c)
 
   <br>
   <br>
@@ -274,8 +297,10 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
   Masih di TCP stream seperti di pertanyaan terakhir soal sebelumnya, bisa dilihat di stream bahwa pertama dilaksanakan `echo "Falle.kkeFlag{LinngGangGu_...}"`.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :** 
+  ![](https://drive.google.com/uc?export=view&id=1g3wWlDdKde0sSFZePU3g4f1pQadVvKmD)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1A_GcKZoGoGVTz_UUwfwwJZ_0FbvIsLCx)
 
   <br>
   <br>
@@ -295,8 +320,10 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
   Sama dengan soal sebelumnya, di stream dapat dilihat ada dilaksanakan `cat test.txt`
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1bn2LN8f3XfKZeXWUC9kRr6D49JTak-YP)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1A_GcKZoGoGVTz_UUwfwwJZ_0FbvIsLCx)
 
   <br>
   <br>
@@ -316,8 +343,10 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
   Sama dengan soal sebelumnya, di stream dapat dilihat ada dilaksanakan `echo "N. Jarkom gampang " > test.txt`
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1-MJDG0iCaJvT4sKxJXq97Vrth3lr6Lty)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1A_GcKZoGoGVTz_UUwfwwJZ_0FbvIsLCx)
 
   <br>
   <br>
@@ -340,11 +369,13 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 - Explanation
 
-  `http.request` untuk menunjukkan packet request dan `http.response` untuk menunjukkan packet respons. Menggunakkan operator OR agar gabungan dari dua-duanya bisa muncul.
+  `http.request` untuk menunjukkan packet request dan `http.response` untuk menunjukkan packet respons. Menggunakkan operator OR agar gabungan dari dua-duanya bisa muncul. Lihat jumlah dari _Displayed_ di status bar bawah.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1RWP01BC9804X5qIhIQtCoLbKWFswgCE2)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1jZHk00ksera7er9Hc7nVJhHLhibSJCIA)
 
   <br>
   <br>
@@ -361,11 +392,13 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 - Explanation
 
-  Hanya mengeluarkan `http.request` dari pertanyaan sebelumnya agar yang diperlihatkan hanya packet respons.
+  Hanya mengeluarkan `http.request` dari pertanyaan sebelumnya agar yang diperlihatkan hanya packet respons. Lihat jumlah dari _Displayed_ di status bar bawah.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1qqdo9xGqpPgsq7fBf_G0zozKMDczomWN)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1jZHk00ksera7er9Hc7nVJhHLhibSJCIA)
 
   <br>
   <br>
@@ -385,8 +418,10 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
   Dengan menelusuri list packet `http.request or http.response` dapat ditemukan dua packet yang tidak berhasil direkam. Jadi, jumlah total packet http **dikurangi dua**.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1KkctyET-lkhuh_y81QXadgmdApl8Zu6d)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1jZHk00ksera7er9Hc7nVJhHLhibSJCIA)
 
   <br>
   <br>
@@ -403,11 +438,13 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 - Explanation
 
-  Select salah satu packet di `http.request or http.response` dan melihat `Src : ...` di bagian Details.
+  Select salah satu packet di `http.request or http.response` dan melihat `Src : ...` di bagian Details untuk mendapatkan IP source (client).
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1YtnYL8jYfnXNTRAaN3gsQ72LC61j9ZqC)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1jZHk00ksera7er9Hc7nVJhHLhibSJCIA)
 
   <br>
   <br>
@@ -416,25 +453,27 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 - Flag
 
-  `put your flag here`
+  `JARKOM25{br0mb44rdin0u_Cr0ccc0c0c0cdi1l10l_1587796855awaesacraf4448rvsh1n0buMR4S4X3XFATINRG_bf362d46ed05fef570153fecaac5b888}`
 
 > a. Apakah kamu menemukan fake flag? Tuliskan seluruhnya!
 
 > _a. Did you find the fake flag? Write it whole!_
 
-**Answer:** `put your answer here`
+**Answer:** `FakeFlag{JarkomGampang}`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `http contains "flag.txt"`
 
 - Explanation
 
-  `put your explanation here`
+  Mengikuti clue yang diberikan, mencari `flag.txt` dengan `contains`. Mencari dalam protocol `http` karena mengikuti soal-soal sebelumnya yang berkaitan dengan `http`. Setelah ketemu packet yang ada `flag.txt` nya, `Follow -> TCP Stream` dan akan ketemu stream.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1yerg-QmspUG1wcKh5nhqp0CI2S-FE0_Z)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1nmhJZlT_7g-HhYjDJEok70YW8aVvlWuW)
 
   <br>
   <br>
@@ -443,19 +482,21 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 > _b. Write the written username and password! (format username:password)_
 
-**Answer:** `put your answer here`
+**Answer:** `Rey:123`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `http contains "passwd.txt"`
 
 - Explanation
 
-  `put your explanation here`
+  Sama dengan pertanyaan sebelumnya, tapi sekarang mencari "`passwd.txt`. Setelah ketemu dengan menggunakan filter, `Follow -> TCP Stream` untuk mendapatkan username dan passwordnya dalam stream.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1HRxYpGrKcFmBcBomXbYJqbca-ScO2gmO)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1nmhJZlT_7g-HhYjDJEok70YW8aVvlWuW)
 
   <br>
   <br>
@@ -481,8 +522,10 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
   `http.request.url` karena yang diminta soal "direquest". Mencari dengan filter `contains` setiap ekstensi file gambar (`.jpg`, `.png`, dll.) sampai ketemu.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1B0sQINIcZ0p5iDxwJ2TKIPhmt8Z4hZfW)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1qIRoHC6xa3Z96bII5Y2WbUavyyn8K8d4)
 
   <br>
   <br>
@@ -497,19 +540,21 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 > _a. How many FTP packets are recorded in the pcapng file? (with the data)_
 
-**Answer:** `put your answer here`
+**Answer:** `81`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  `ftp` untuk menunjukkan paket-paket ftp (tanpa data), `ftp-data` untuk menunjukkan paket yang ada data. Lihat jumlah dari _Displayed_ di status bar bawah.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=10AfzEC7GfgA3uYSHKB5XuexROR-8Givk)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1czKjnN4MjovkCq4FsCWhsJmKyGHCEX_G)
 
   <br>
   <br>
@@ -518,19 +563,21 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 > _b. What is the client's username and password in FTP connection? (write in following format username:password)_
 
-**Answer:** `put your answer here`
+**Answer:** `rey:password123lingangu`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  Select salah satu paket yang `ftp` (tanpa data) dan `Follow -> TCP Stream`. Bisa dilihat dari stream ada username dan passwordnya di paling atas.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1GbbUN-jn7HOpydVpE3JLF_-IBDrH7QWb)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1czKjnN4MjovkCq4FsCWhsJmKyGHCEX_G)
 
   <br>
   <br>
@@ -539,19 +586,21 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 > _c. Apa command client untuk melihat direktori server yang dikirimkan dalam request packet?_
 
-**Answer:** `put your answer here`
+**Answer:** `LIST`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  Hanya melihat bagian info di list packet yang keluar saat menggunakan filter secara berurutan. Bisa dilihat urutan request adalah `USER`, `PASS`, `SYST`, dst. Dari semua itu, command yang berfungsi untuk melihat direktori adalah `LIST`.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1ovBlump-JBtskGDg_GS2FVZsqTu1q1bp)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1czKjnN4MjovkCq4FsCWhsJmKyGHCEX_G)
 
   <br>
   <br>
@@ -560,25 +609,27 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 - Flag
 
-  `put your flag here`
+  `JARKOM25{j4rk000000mmm_g4mpp4444n9999999_41811367688i41L4hfpmmckaci0321k0ncol83ZNF7TSQX97GRR_a13eaf68f29f5e1f04191a7175970787}`
 
 > a. Apa alamat IP dari FTP server?
 
 > _a. What is the FTP server IP Address?_
 
-**Answer:** `put your answer here`
+**Answer:** `172.16.16.101`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  Dapatkan source IP dari paket ftp pertama.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1cF8rQdQuO9-6bp7LuPg-FS3jfBvgDUwz)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1nauucIi-cHUlMPthncKrm2z6_ZoOR52b)
 
   <br>
   <br>
@@ -587,19 +638,22 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 > _b. How many files are there inside the FTP server directory?_
 
-**Answer:** `put your answer here`
+**Answer:** `7`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  Cari paket yang request `LIST`, kemudian temukan paket dengan protocol `ftp-data` yang terdekat. `Follow -> TCP Stream` dari paket `ftp-data` yang ditemukan. Dari stream yang diperlihatkan, hitung berapa banyak file (directory nya sendiri tidak termasuk).
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1NifgfGPOHffIyaIupg2g1fSszhTuWcW5)
+  ![](https://drive.google.com/uc?export=view&id=1qAbzhpG1MbFdt3ZaS1NpbMCsZfpUFmxu)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1nauucIi-cHUlMPthncKrm2z6_ZoOR52b)
 
   <br>
   <br>
@@ -608,19 +662,22 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 > _c. What are the filenames used in the page.html? (write the filebames with their extensions and separate them with comma ',')_
 
-**Answer:** `put your answer here`
+**Answer:** `pokijan.jpg,research_center.jpg`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  Cari paket yang request `RETR page.html` (`RETR` adalah command untuk mengunduh file), kemudian temukan paket dengan protocol `ftp-data` yang terdekat. `Follow -> TCP Stream` dari paket `ftp-data` yang ditemukan. Dari stream yang diperlihatkan, dapatkan nama-nama file image yang digunakan di kode html.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1xnWGE-Vxyl0lHJm7WscU-9geu8gbPSPL)
+  ![](https://drive.google.com/uc?export=view&id=1ErGRlGzLzEmUpCZFBhlS2JpdLWt4PKCd)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1nauucIi-cHUlMPthncKrm2z6_ZoOR52b)
 
   <br>
   <br>
@@ -629,25 +686,28 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 - Flag
 
-  `put your flag here`
+  `JARKOM25{f1nisssshs55s5s533s_l1n333ee333E3_88044872072910yesgvkvtxh345215123123QC6KJKX44W7X2UA_e78da974a9b5d24a7c8a3cd76be595c1}`
 
 > a. Apa nama file yang mengandung string terencode?
 
 > _a. What is the filename that contains encoded string?_
 
-**Answer:** `put your answer here`
+**Answer:** `secret.txt`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  Karena yang dicari adalah file dengan string, maka bisa diasumsi file yang kita cari bertipe .txt atau sejenisnya. Cari di daftar paket yang ada `RETR [...].txt` dan cari paket `ftp-data` terdekat untuk memastikan ada encoded string dalam stream. Jika ada, maka file itu benar yang kita cari.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1k9S1HTNI292m7df90BcH7_KggG725U09)
+  ![](https://drive.google.com/uc?export=view&id=1v_VujXtbEl-vxIyEubMwhRvaaBpwJp4S)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1DA5HqEVUyf39NmiFiSub8YcvkOAVkKNo)
 
   <br>
   <br>
@@ -656,19 +716,21 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 > _b. What is the filename of the previous file copy?_
 
-**Answer:** `put your answer here`
+**Answer:** `secret1.txt`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  Setelah dapat file sebelumnya, cari di daftar paket apakah ada request `STOR` (artinya client medownload file sebelumnya (`RETR`) dan mengupload lagi file (`STOR`) hasil copy. Nama file yang di-`STOR` adalah jawabannya.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1bU0g3ItIAQQ7WABPv0GX0FWZ0FrkZK7L)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1DA5HqEVUyf39NmiFiSub8YcvkOAVkKNo)
 
   <br>
   <br>
@@ -677,23 +739,32 @@ Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. K
 
 > _c. Apa decoded string dari file tersebut?_
 
-**Answer:** `put your answer here`
+**Answer:** `Pada suatu hari Rey bertemu dengan Nailong the Milk Dragon. Ketika bertemu, Rey mengajarkan Nailong apa itu Jaringan Komputer. Nailong pun senang karena ternyata Jaringan Komputer itu gampang.`
 
 - Filter expression
 
-  `put your filter here (if any)`
+  `ftp or ftp-data`
 
 - Explanation
 
-  `put your explanation here`
+  Dari stream salah satu file `.txt` sebelumnya, kita masukkan di _cipher identifier_ sesuai dengan clue. Setelah teridentifikasi pakai cipher apa, kita pakai _decoder_ sesuai dengan tipe cipher untuk mendapatkan string original nya. Di soal ini, kita ketemu bahwa memakai **cipher Base64**.
 
 - Output result
-
-  `put your output result here`
+  <br><br>**Wireshark :**
+  ![](https://drive.google.com/uc?export=view&id=1v_VujXtbEl-vxIyEubMwhRvaaBpwJp4S)
+  ![](https://drive.google.com/uc?export=view&id=1OtUR1dyGnbpzt758n3IhVY-nn8RcjNYW)
+  ![](https://drive.google.com/uc?export=view&id=1eIdnmkrVS2Sq5IxRcMB_minahisb1YQ9)
+  <br><br>**Terminal :**
+  ![](https://drive.google.com/uc?export=view&id=1DA5HqEVUyf39NmiFiSub8YcvkOAVkKNo)
 
   <br>
   <br>
 
 ## Summary
 
+Dari Praktikum ini kita belajar cara mengoperasikan Wireshark, cara memilah paket-paket yang terlihat untuk menyelesaikan soal, dan kebanyak soal bisa diselesaikan dengan `Follow -> TCP Stream` 😁.
+
+<br> <br>
 ## Problems
+
+Ada masalah di awal saja sih, masih agak kurang kenal cara memakai Wireshark, tapi setelah tahap learning curve di awal sudah mengerti bagaimana mengerjakan soal-soalnya.
