@@ -1,770 +1,981 @@
-| Name | NRP | Class |
-| ---- | --- | ----- |
-| Jorell Ramos Sinaga  | 5025241202 | A   |
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/e_s827HM)
+| Name                 | NRP        | Kelas |
+|----------------------|------------|-------|
+| Angela Vania Sugiyono | 5025241226 | A     |
 
-***Disclaimer : Mohon maaf sebelumnya, saya lupa screenshot terminal dan flag yang dihasilkan, jadi flag yang saya masukkan disini mungkin tidak sesuai seperti yang saya pakai untuk submit di hari-H praktikum.**
-## Task 1
+## Put your topology config image here!
 
-- Flag
+![image1](https://github.com/Praktikum-NETICS-2025/jarkom-modul-3-shzirley/blob/main/screenshot/topologi.png?raw=true)
 
-  `JARKOM25{Ja0G_Bbbb4ng3t_S1_21GRU66TBQVCV04SIFTX25V2FIVH4X0xl0vel1ehak9besrchuvy77r3isbb9_8af7d72856059b0e6df16c7fd77ebc2a}`
+## Put your GNS3 Project file here!
 
-> a. Berapa banyak packet yang terekam pada file pcapng?
+[case3sampeno8.gns3project](case3sampeno8.gns3project)
 
-> _a. How many packets are recorded in the pcapng file?_
-
-**Answer:** `9596`
-
-- Filter expression
-
-  `-`
-
-- Explanation
-
-  Bisa dilihat dari status bar di bagian bawah Wireshark.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1fJAeexuvVmRvA6sbMDnmASakZ-A5JgnG)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1O_6viJd6M4paPBl9RL1kFiTg4hrnfqWa)
-  
-<br>
 <br>
 
-> b. Ada berapa jenis protocol (total) yang terekam pada traffic?
+## Soal 1
 
-> _b. How many types of protocol (totals) are recorded in the traffic?_
+> Setup Topo
 
-**Answer:** `12`
+> _Document the results of the subnet grouping that has been created._
 
-- Filter expression
+**Answer:**
 
-  `-`
+- Screenshot
+
+![image1](https://github.com/Praktikum-NETICS-2025/jarkom-modul-3-shzirley/blob/main/screenshot/topologi.png?raw=true)
 
 - Explanation
 
-  Bisa dilihat dengan membuka `Statistics -> Protocol Hierarchy` dan menghitung berapa jumlah protokol yang ditunjukkan.
+Berikut hasil pembagian subnet serta konfigurasi antarmuka dari setiap node dalam topologi.
 
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1WkLsWqCfv9NehE1La21QL_ZwclfTPHzu)
-  ![](https://drive.google.com/uc?export=view&id=1dHS7_NQVC79p6R_5aV7Q_SRR75dgirpv)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1O_6viJd6M4paPBl9RL1kFiTg4hrnfqWa)
-  
+### Tabel IP Addressing Plan
+
+| Node     | Interface | IP Address  | Subnet Mask     | Default Gateway | Catatan        |
+|-----------|------------|-------------|------------------|------------------|----------------|
+| Lune      | eth0 | 10.68.2.1 | 255.255.0.0 | 10.68.0.254 | Web Server 1 |
+| Soleil    | eth0 | 10.68.2.2 | 255.255.0.0 | 10.68.0.254 | Web Server 2 |
+| Gustave   | eth0 | 10.68.2.3 | 255.255.0.0 | 10.68.0.254 | Web Server 3 |
+| Renoir    | eth0 | 10.68.3.1 | 255.255.0.0 | 10.68.0.254 | DNS Master |
+| Verso     | eth0 | 10.68.3.2 | 255.255.0.0 | 10.68.0.254 | DNS Slave |
+| Alicia    | eth0 | 10.68.4.1 | 255.255.0.0 | 10.68.0.254 | Reverse Proxy |
+| Esquie    | eth0 | 10.68.5.1 | 255.255.0.0 | 10.68.0.254 | Client 1 |
+| Monocco   | eth0 | 10.68.5.2 | 255.255.0.0 | 10.68.0.254 | Client 2 |
+| Maelle    | eth0 | 10.68.5.3 | 255.255.0.0 | 10.68.0.254 | Client 3 |
+
+---
+
+### Konfigurasi Interface Tiap Node
+
+#### Lune
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.2.1
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+````
+
+#### Sciel
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.2.2
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+```
+
+#### Gustave
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.2.3
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+```
+
+#### Renoir
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.3.1
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+    up echo "nameserver 127.0.0.1" > /etc/resolv.conf
+    up echo "nameserver 10.68.3.2" >> /etc/resolv.conf
+```
+
+#### Verso
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.3.2
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+    up echo "nameserver 10.68.3.1" > /etc/resolv.conf # Renoir sebagai Primary
+    up echo "nameserver 127.0.0.1" >> /etc/resolv.conf
+```
+
+#### Alicia
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.4.1
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+```
+
+#### Esquise
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.5.1
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+    up echo nameserver 10.68.3.2 > /etc/resolv.conf # Renoir (Master)
+    up echo nameserver 10.68.3.3 >> /etc/resolv.conf # Verso (Slave)
+```
+
+#### Monocco
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.5.2
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+    up echo nameserver 10.68.3.2 > /etc/resolv.conf # Renoir (Master)
+    up echo nameserver 10.68.3.3 >> /etc/resolv.conf # Verso (Slave)
+```
+
+#### Maelle
+
+```bash
+auto eth0
+iface eth0 inet static
+    address 10.68.5.3
+    netmask 255.255.0.0
+    gateway 10.68.0.254
+    up echo nameserver 10.68.3.2 > /etc/resolv.conf # Renoir (Master)
+    up echo nameserver 10.68.3.3 >> /etc/resolv.conf # Verso (Slave)
+```
+
+---
+
 <br>
+
+# Soal 2
+
+> Buatlah konfigurasi untuk domain  
+> **lune33.com** → ke IP node Lune,  
+> **sciel33.com** → ke IP node Sciel,  
+> **gustave33.com** → ke IP node Gustave  
+> pada DNS Master Renoir. Kemudian konfigurasikan node Verso sebagai DNS Slave yang bekerja untuk DNS Master Renoir.
+
+> _DNS Configuration on the DNS Master (Renoir)_  
+> _lune33.com → IP of node Lune_  
+> _sciel33.com → IP of node Sciel_  
+> _gustave33.com → IP of node Gustave_  
+> _Configure Verso as the DNS Slave that works with DNS Master Renoir._
+
+---
+
+**Answer:**
+
+### Screenshot
+
+#### 1. Konfigurasi Zone di Node Renoir
+
+![Konfigurasi Zone di Node Renoir](screenshot/soal2renoir.jpg)
+
+#### 2. Konfigurasi db di Node Renoir sebagai DNS Master
+
+**a. Lune**
+
+![Konfigurasi db Lune](screenshot/soal2dblune.jpg)
+
+**b. Gustave**
+
+![Konfigurasi db Gustave](screenshot/soal2dbgustave.jpg)
+
+**c. Sciel**
+
+![Konfigurasi db Sciel](screenshot/soal2dbsciel.jpg)
+
+#### 3. Konfigurasi Node Verso sebagai DNS Slave
+![Konfigurasi Node Verso](screenshot/soal2verso.jpg)
+
+---
+
+### Explanation
+
+#### Cek Keberhasilan Soal 2
+
+Untuk mengecek keberhasilan konfigurasi DNS pada Soal 2, lakukan pengujian di **client** dengan perintah berikut:
+
+1. `dig lune33.com @10.68.3.1`  
+2. `dig lune33.com @10.68.3.2`  
+3. `dig sciel33.com @10.68.3.1`  
+4. `dig sciel33.com @10.68.3.2`  
+5. `dig gustave33.com @10.68.3.1`  
+6. `dig gustave33.com @10.68.3.2`  
+
+Selain itu, untuk memastikan bahwa domain dapat diakses dan host aktif, jalankan perintah **ping** berikut:
+
+1. `ping lune33.com -c 4`  
+2. `ping sciel33.com -c 4`  
+3. `ping gustave33.com -c 4`  
+
+Jika semua perintah `dig` dan `ping` berhasil, maka konfigurasi DNS Master (Renoir) dan DNS Slave (Verso) telah berfungsi dengan baik.
+
+---
+
 <br>
 
-> c. Ada berapa jenis protocol berbasis TCP yang terekam pada traffic?
+## Soal 3
 
-> _c. How many types of TCP-based applications protocol are recorded in the traffic?_
+> Tambahkan subdomain alias berupa **exp.lune33.com** yang mengarah ke alamat **lune33.com** dan **exp.sciel33.com** yang mengarah ke alamat **sciel33.com** (HINT: CNAME).  
+> Selain itu, tambahkan konfigurasi untuk melakukan **reverse DNS lookup** untuk domain **gustave33.com**.
 
-**Answer:** `8`
+> _Subdomain Configuration_  
+> _Add alias subdomains (HINT: CNAME)._  
+> _exp.lune33.com → alias to lune33.com_  
+> _exp.sciel33.com → alias to sciel33.com_  
+> _Also, configure reverse DNS lookup for the domain gustave33.com._
 
-- Filter expression
+---
 
-  `-`
+**Answer:**
+
+### Screenshot
+
+#### Konfigurasi di Node Renoir
+
+**a. Konfigurasi Zone Reverse**
+
+![Konfigurasi Zone Reverse di Renoir](screenshot/soal3zonereverse.jpg)
+
+**b. Konfigurasi db.2 di Node Renoir**
+
+![Konfigurasi db.2 di Node Renoir](screenshot/soal3db.2.jpg)
+
+#### Konfigurasi di Node Verso
+
+**a. Konfigurasi Zone Reverse**
+
+![Konfigurasi Zone Reverse di Verso](screenshot/soal3versozonereverse.jpg)
+
+---
+
+### Explanation
+
+Untuk melakukan pengecekan apakah subdomain dan konfigurasi reverse DNS sudah berhasil, jalankan perintah berikut dari **client**:
+
+1. `dig exp.lune33.com @10.68.3.1`  
+   → Mengecek apakah subdomain **exp.lune33.com** berhasil diresolusikan melalui **DNS Master (Renoir)**.
+
+2. `dig exp.lune33.com @10.68.3.2`  
+   → Mengecek apakah **DNS Slave (Verso)** sudah tersinkronisasi dengan Master dan dapat meresolusikan subdomain yang sama.
+
+3. `dig -x 10.68.2.3 @10.68.3.1`  
+   → Mengecek konfigurasi **reverse DNS lookup** untuk IP **10.68.2.3** (domain **gustave33.com**) melalui **DNS Master (Renoir)**.
+
+4. `dig exp.sciel33.com @10.68.3.1`  
+   → Mengecek apakah subdomain **exp.sciel33.com** dapat diresolusikan oleh **DNS Master (Renoir)**.
+
+5. `dig exp.sciel33.com @10.68.3.2`  
+   → Mengecek apakah **DNS Slave (Verso)** juga bisa meresolusikan subdomain **exp.sciel33.com** setelah data dari Master tersinkronisasi.
+
+---
+
+### Bukti Keberhasilan
+
+#### Hasil Cek Subdomain Lune
+
+![Cek exp.lune33.com](screenshot/soal3ceklune.png)
+
+#### Hasil Cek Subdomain Sciel
+
+![Cek exp.sciel33.com](screenshot/soal3ceksciel.png)
+
+#### Hasil Cek Reverse DNS Gustave
+
+![Cek Reverse DNS gustave33.com](screenshot/soal3cekreverse.png)
+
+#### Ping ke Domain Utama
+
+![Ping ke domain utama](screenshot/soal3pingdomain.jpg)
+
+#### Ping ke Subdomain
+
+![Ping ke subdomain](screenshot/soal3pingsubdomain.jpg)
+
+---
+
+<br>
+
+## Soal 4
+
+> Buatlah subdomain berupa **expedition.gustave33.com** dan delegasikan subdomain tersebut dari **Renoir** ke **Verso** dengan alamat IP tujuan adalah node **Gustave**.  
+> Kemudian, **matikan Renoir** dan coba lakukan **ping ke semua domain dan subdomain** yang telah dikonfigurasikan pada nomor 2, 3, dan 4.
+
+> _Create a subdomain **expedition.gustave33.com** and delegate it from Renoir to Verso, with the target IP being node Gustave. Then, turn off Renoir and try pinging all domains and subdomains configured in tasks 2, 3, and 4 to verify that delegation works correctly._
+
+---
+
+**Answer:**
+
+### Screenshot
+
+#### Konfigurasi di Node Renoir
+![Konfigurasi di Renoir](screenshot/soal4renoir.jpg)
+
+#### Konfigurasi di Node Verso
+![Konfigurasi di Verso](screenshot/soal4verso.jpg)
+
+#### Hasil Pengujian Ping
+![Cek Ping Domain](screenshot/soal4cekping.jpg)
+
+---
+
+### Explanation
+
+Untuk memastikan konfigurasi **delegasi subdomain expedition.gustave33.com** berjalan dengan benar, lakukan pengujian dari **client** dengan perintah berikut:
+
+1. `ping lune33.com -c 4`  
+2. `ping sciel33.com -c 4`  
+3. `ping gustave33.com -c 4`  
+4. `ping expedition.gustave33.com -c 4`  
+
+---
+
+- **Tujuan pengujian ini** adalah untuk memastikan bahwa subdomain **expedition.gustave33.com** yang telah didelegasikan dari **DNS Master (Renoir)** ke **DNS Slave (Verso)** dapat tetap diakses meskipun DNS Master dimatikan.  
+  Ini membuktikan bahwa proses **delegasi DNS** berjalan dengan baik.
+
+- **Renoir** berperan sebagai **DNS Master** yang menyimpan konfigurasi utama dan melakukan delegasi zona subdomain `expedition.gustave33.com` ke **Verso**.  
+  Setelah delegasi dilakukan, **Verso** menjadi **authoritative DNS server** untuk subdomain tersebut.
+
+- Saat **Renoir dimatikan**, DNS Slave (**Verso**) tetap dapat melayani permintaan DNS untuk domain dan subdomain yang telah disinkronkan, termasuk `lune33.com`, `sciel33.com`, `gustave33.com`, dan `expedition.gustave33.com`.
+
+- Jika hasil `ping` menunjukkan **reply** dari masing-masing domain/subdomain, maka konfigurasi delegasi DNS sudah **berhasil**.  
+  Ini menandakan:
+  - Verso berfungsi sebagai DNS Slave yang aktif dan mengambil alih ketika Master tidak tersedia.  
+  - Delegasi subdomain ke Verso berfungsi sebagaimana mestinya.  
+  - Klien tetap dapat mengakses seluruh domain tanpa gangguan meski Renoir dimatikan.
+
+Sebaliknya, jika muncul pesan **“unknown host”** atau **“temporary failure in name resolution”**, berarti proses delegasi atau konfigurasi zona pada Verso belum benar.
+
+---
+
+## Soal 5
+
+> Konfigurasi node **Lune**, **Sciel**, dan **Gustave** agar berfungsi sebagai web server **Nginx** yang menyajikan halaman profil berbeda di setiap node.  
+> Gunakan:
+> - `profile_lune.html` untuk node Lune  
+> - `profile_sciel.html` untuk node Sciel  
+> - `profile_gustave.html` untuk node Gustave  
+> 
+> Selain itu, konfigurasikan **custom log** di masing-masing server:
+> - Access log: `/tmp/access.log`  
+> - Error log: `/tmp/error.log`  
+
+> _Configure Lune, Sciel, and Gustave as Nginx web servers serving profile pages with custom logs._
+
+---
+
+**Answer:**
+
+### Screenshot
+
+#### Uji Coba dengan Curl
+![Cek Curl HTML](screenshot/soal5cekcurlhtml.jpg)
+
+---
+
+### Explanation
+
+#### 1. Pembuatan File Profil & Direktori Root  
+Langkah pertama adalah membuat **folder root web** dan **file profil HTML** di masing-masing node.  
+Setiap file berisi konten profil unik sesuai nama nodenya.
+
+---
+
+#### 2. Konfigurasi Virtual Host & Log di NGINX  
+Masing-masing node (Lune, Sciel, Gustave) dikonfigurasi agar:
+- Menyajikan file HTML dari `/var/www/[nama_node]/profile_[nama_node].html`
+- Menyimpan **access log** di `/tmp/access.log`
+- Menyimpan **error log** di `/tmp/error.log`
+
+Konfigurasi ini memastikan setiap web server memiliki log-nya sendiri tanpa saling tumpang tindih, memudahkan proses debugging dan pemantauan aktivitas.
+
+---
+
+### Konfigurasi Setiap Node
+
+#### Node Lune
+```bash
+# Membuat direktori dan file HTML untuk Lune
+up mkdir -p /var/www/lune
+
+up echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lune</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    background: linear-gradient(270deg, #0a043c, #4a0c25, #7b1b0c, #f9a826);
+    background-size: 800% 800%;
+    animation: bgShift 20s ease infinite;
+  }
+  @keyframes bgShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+  .container {
+    max-width: 700px;
+    margin: 4rem auto;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(6px);
+  }
+  h1 {
+    text-align: center;
+    color: #00e5ff;
+    text-shadow: 0 0 10px #00e5ff;
+  }
+  h2 { color: #ffd166; margin-top: 1.5rem; }
+  p, li { line-height: 1.6; }
+  ul { list-style: none; padding-left: 0; }
+  li::before { content: "▹ "; color: #00e5ff; }
+  footer { text-align: center; font-size: 0.85rem; color: #ccc; margin-top: 2rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lune</h1>
+    <p><i>“When one falls, we continue.”</i></p>
+
+    <h2>Core Expertise</h2>
+    <ul>
+      <li>Analysis of Ancient Technologies</li>
+      <li>Equipment Calibration & Field Maintenance</li>
+      <li>Defense System Deployment</li>
+      <li>Data Collection & Anomaly Detection</li>
+    </ul>
+
+    <h2>Profile Summary</h2>
+    <p>Lune is the mind behind the expedition’s technology.
+       Her understanding of ancient mechanisms and magical artifacts
+       is key to decoding the Paintress’ secrets and keeping the team operational.</p>
+  </div>
+
+  <footer>© 2025 Expedition 33 — For Those Who Come After</footer>
+</body>
+</html>' > /var/www/lune/profile_lune.html
+````
+
+---
+
+#### Node Sciel
+
+```bash
+# Membuat direktori dan file HTML untuk Sciel
+up mkdir -p /var/www/sciel
+
+up echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sciel</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    background: linear-gradient(270deg, #0a043c, #4a0c25, #7b1b0c, #f9a826);
+    background-size: 800% 800%;
+    animation: bgShift 20s ease infinite;
+  }
+  @keyframes bgShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+  .container {
+    max-width: 700px;
+    margin: 4rem auto;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(6px);
+  }
+  h1 {
+    text-align: center;
+    color: #00e5ff;
+    text-shadow: 0 0 10px #00e5ff;
+  }
+  h2 { color: #ffd166; margin-top: 1.5rem; }
+  p, li { line-height: 1.6; }
+  ul { list-style: none; padding-left: 0; }
+  li::before { content: "▹ "; color: #00e5ff; }
+  footer { text-align: center; font-size: 0.85rem; color: #ccc; margin-top: 2rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sciel</h1>
+    <p><i>“Tomorrow comes.”</i></p>
+
+    <h2>Core Expertise</h2>
+    <ul>
+      <li>Stealth and Infiltration Tactics</li>
+      <li>Long-Range Surveillance</li>
+      <li>Navigation and Terrain Mapping</li>
+      <li>Rapid Response & Target Acquisition</li>
+    </ul>
+
+    <h2>Profile Summary</h2>
+    <p>Sciel serves as the eyes and ears of Expedition 33.
+       Agile and perceptive, he scouts ahead, tracks enemy movement,
+       and secures safe passage before every major confrontation.</p>
+  </div>
+
+  <footer>© 2025 Expedition 33 — For Those Who Come After</footer>
+</body>
+</html>' > /var/www/sciel/profile_sciel.html
+```
+
+---
+
+#### Node Gustave
+
+```bash
+# Membuat direktori dan file HTML untuk Gustave
+up mkdir -p /var/www/gustave
+
+up echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gustave</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    background: linear-gradient(270deg, #0a043c, #4a0c25, #7b1b0c, #f9a826);
+    background-size: 800% 800%;
+    animation: bgShift 20s ease infinite;
+  }
+  @keyframes bgShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+  .container {
+    max-width: 700px;
+    margin: 4rem auto;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(6px);
+  }
+  h1 { text-align: center; color: #00e5ff; text-shadow: 0 0 10px #00e5ff; }
+  h2 { color: #ffd166; margin-top: 1.5rem; }
+  p, li { line-height: 1.6; }
+  ul { list-style: none; padding-left: 0; }
+  li::before { content: "▹ "; color: #00e5ff; }
+  footer { text-align: center; font-size: 0.85rem; color: #ccc; margin-top: 2rem; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gustave</h1>
+    <p><i>“For those who come after. Right?”</i></p>
+
+    <h2>Core Expertise</h2>
+    <ul>
+      <li>Tactical Combat Planning</li>
+      <li>Frontline Leadership & Morale Management</li>
+      <li>Heavy Weapon Proficiency</li>
+      <li>Risk Assessment & Survival Techniques</li>
+    </ul>
+
+    <h2>Profile Summary</h2>
+    <p>Gustave is a battle-hardened veteran and the backbone of Expedition 33.
+       With experience from countless missions, he oversees every tactical decision
+       made in the war against the Paintress.</p>
+  </div>
+
+  <footer>© 2025 Expedition 33 — For Those Who Come After</footer>
+</body>
+</html>' > /var/www/gustave/profile_gustave.html
+```
+
+---
+
+### 3. Pengujian
+
+Gunakan perintah berikut dari **client** untuk memastikan web server berfungsi dengan benar:
+
+```bash
+curl http://lune33.com
+curl http://sciel33.com
+curl http://gustave33.com
+```
+
+Jika konfigurasi benar, masing-masing perintah akan menampilkan halaman profil yang berbeda sesuai node-nya.
+
+---
+
+### Kesimpulan
+
+* Setiap node (**Lune**, **Sciel**, dan **Gustave**) telah dikonfigurasi sebagai **web server Nginx** dengan halaman profil masing-masing.
+* Custom log di `/tmp/access.log` dan `/tmp/error.log` membantu memantau aktivitas akses dan error tanpa mengganggu log utama Nginx.
+* Hasil `curl` menunjukkan bahwa **setiap domain menampilkan konten unik**, menandakan konfigurasi virtual host dan direktori root sudah berhasil.
+
+---
+
+## Soal 6
+
+> Setelah website berhasil dideploy pada masing-masing node web server dan halaman dapat menampilkan profil yang sesuai, buatlah **custom access log** ke file `/tmp/access.log` di masing-masing node web server menggunakan format log tertentu seperti di bawah:
+> 
+> - Tanggal dan waktu akses (format standar log)
+> - Nama node yang sedang diakses
+> - Alamat IP klien yang mengakses website
+> - Metode HTTP dan URI yang diakses
+> - Status respons HTTP yang diberikan oleh server
+> - Jumlah byte yang dikirimkan dalam respons
+> - Waktu yang dihabiskan oleh server untuk menangani permintaan
+>
+> Contoh format log:
+> ```
+> [01/Oct/2024:11:30:45 +0000] Jarkom Node Lune Access from 192.168.1.15 using method "GET /resep/bayam HTTP/1.1" returned status 200 with 2567 bytes sent in 0.038 seconds
+> ```
+
+> _Create a custom access log in `/tmp/access.log` for each web server (Lune, Sciel, Gustave) using the specified log format._
+
+---
+
+**Answer:**
+
+### Screenshot
+
+#### Konfigurasi Format Log Masing-Masing Node (Sesuaikan Nama Node)
+![Konfigurasi Format Log](screenshot/soal6.jpg)
+
+#### Cek Keberhasilan Log Masing-Masing Node Web Server
+![Cek Log Gustave](screenshot/soal6cekgustave.jpg)  
+![Cek Log Lune](screenshot/soal6ceklune.jpg)  
+![Cek Log Sciel](screenshot/soal6ceksciel.jpg)
+
+---
+
+### Explanation
+
+#### Langkah-Langkah Konfigurasi Custom Log Format
+
+1. **Edit konfigurasi NGINX di masing-masing node web server (Lune, Sciel, Gustave)** — biasanya pada file:
+````
+
+/etc/nginx/sites-available/default
+
+````
+2. Tambahkan blok berikut di dalam konfigurasi:
+
+#### Contoh untuk Node Lune
+
+``` bash
+up echo 'log_format custom_lune "[${time_local}] Jarkom Node Lune Access from ${remote_addr} using method \"${request}\" returned status ${status} with ${body_bytes_sent} bytes in ${request_time}s";' > /etc/nginx/conf.d/custom_log.conf
+```
+
+> Ubah `Node Lune` sesuai dengan nama node (contoh: `Node Sciel`, `Node Gustave`).
+
+---
+
+#### Cek Keberhasilan Custom Log
+
+Untuk membuktikan bahwa format log sudah berjalan dengan benar, lakukan pengujian berikut dari node **client** (misalnya Esquise, Monocco, atau Maelle):
+
+1. Kirim permintaan HTTP ke masing-masing web server:
+
+   ```bash
+   curl http://lune33.com
+   curl http://sciel33.com
+   curl http://gustave33.com
+   curl http://expedition.gustave33.com
+   ```
+
+2. Kemudian, lihat hasil log di setiap web server:
+
+   ```bash
+   cat /tmp/access.log
+   cat /tmp/error.log
+   ```
+
+---
+
+* **Tujuan utama custom log format** ini adalah untuk memberikan **informasi yang lebih spesifik dan mudah dibaca** dibanding log bawaan NGINX.
+  Dengan menambahkan nama node dan informasi lengkap (IP klien, metode HTTP, URI, status kode, dan waktu eksekusi), administrator jaringan dapat dengan cepat:
+
+  * Mengidentifikasi node mana yang sedang diakses.
+  * Melihat asal permintaan (alamat IP klien).
+  * Mengevaluasi performa dan waktu respons server.
+  * Melakukan troubleshooting jika ada error atau lonjakan trafik.
+
+* **Custom access log (`/tmp/access.log`)** → mencatat semua aktivitas akses (baik dari user maupun client internal).
+
+* **Custom error log (`/tmp/error.log`)** → mencatat semua kesalahan atau kegagalan pemrosesan request.
+
+Dengan demikian, log ini bukan hanya sekadar catatan akses, tetapi juga **alat monitoring penting** untuk mengevaluasi **keamanan, stabilitas, dan performa server**.
+
+---
+
+### Kesimpulan
+
+* Setiap node web server (**Lune**, **Sciel**, dan **Gustave**) kini memiliki custom log yang menampilkan format akses secara detail.
+* Log ini memungkinkan analisis lalu lintas jaringan dan performa aplikasi dengan lebih efisien.
+* Hasil pengujian `curl` dari client menunjukkan bahwa request berhasil terekam sesuai format log yang telah ditentukan.
+
+---
+
+## Soal 7
+
+> Gustave merupakan web server yang tidak disarankan untuk dilihat oleh publik. Maka dari itu, ubahlah konfigurasi nginx sehingga halaman profil Gustave menjadi hanya bisa diakses melalui port 8080 dan 8888.
+
+> *The Gustave web server should not be publicly accessible.
+> Modify the Nginx configuration so that Gustave’s profile page can only be accessed through ports 8080 and 8888.*
+
+---
+
+**Answer:**
+
+* **Screenshot**
+
+  **Pengujian Akses Port Gustave**
+  ![Cek Curl Gustave](screenshot/soal7cekcurl.jpg)
+
+---
+
+* **Explanation**
+
+1. **Ubah dan  konfigurasi port baru pada NGINX di Node Gustave:**
+
+   Jalankan perintah berikut untuk menambahkan dua port tambahan (8080 dan 8888) agar web server Gustave hanya merespons di port tersebut.
+
+   ```bash
+   up echo '    listen 8080;' >> /etc/nginx/sites-available/default
+   up echo '    listen 8888;' >> /etc/nginx/sites-available/default
+   ```
+
+  **Penjelasan:**
+
+   * Baris `listen 8080;` dan `listen 8888;` membuat NGINX mendengarkan (listen) koneksi HTTP pada port 8080 dan 8888.
+   * Dengan konfigurasi ini, server **tidak lagi menerima koneksi di port default 80**, sehingga akses melalui `curl gustave33.com` tanpa menyebutkan port akan **gagal (connection refused)**.
+   * Hanya permintaan dengan port yang disebut secara eksplisit (`curl gustave33.com:8080` atau `curl gustave33.com:8888`) yang akan berhasil.
+
+2. **Uji hasil konfigurasi:**
+
+   * **Coba akses dengan port default (tanpa port):**
+
+     ```bash
+     curl gustave33.com
+     ```
+
+    **Hasil:** gagal — karena port 80 tidak lagi digunakan.
+
+   * **Coba akses dengan port yang telah diset:**
+
+     ```bash
+     curl gustave33.com:8080
+     curl gustave33.com:8888
+     ```
+
+    **Hasil:** berhasil menampilkan halaman profil Gustave.
+
+3. **Tujuan pengaturan ini:**
+
+   * Membatasi akses publik hanya untuk pengguna atau sistem yang mengetahui port khusus.
+   * Port `8080` dan `8888` biasanya digunakan untuk layanan internal atau testing environment, bukan untuk trafik publik biasa.
+   * Dengan memindahkan layanan dari port 80 ke port non-standar, server menjadi **lebih aman** karena tidak mudah diakses secara umum, sejalan dengan kebutuhan “tidak disarankan untuk publik”.
+
+---
+
+## Soal 8
+
+> Untuk mempermudah program ekspedisi, maka node Lune, Sciel, Gustave sepakat untuk membuat halaman informasi dengan konten yang sama. Maka dari itu, buatlah lagi 1 server block di dalam konfigurasi nginx yang akan menyajikan file HTML ini. Namun, mereka ingin menyajikan halaman informasi tersebut di port yang berbeda-beda, yaitu Lune menggunakan port 8000, Sciel menggunakan port 8100, dan Gustave menggunakan port 8200.
+
+> *To simplify coordination for the expedition program, Lune, Sciel, and Gustave agree to create a shared information page with the same content. Add one more server block in each node’s Nginx configuration that serves this HTML file.
+> Each node should serve the information page on a different port:*
+> *- Lune → port 8000*
+> *- Sciel → port 8100*
+> *- Gustave → port 8200*
+
+---
+
+**Answer:**
+
+* **Screenshot**
+
+  **Konfigurasi dan Pengujian Halaman Info**
+  ![Cek Curl Info Page](screenshot/soal8cekcurl.jpg)
+
+---
+
+* **Explanation**
+
+1. **Buat file `info.html` di masing-masing node:**
+
+   Jalankan perintah berikut di masing-masing node, dan ubah `[node_webserver]` sesuai dengan nama node (misal: `lune`, `sciel`, `gustave`):
+
+   ```bash
+   up echo '<!DOCTYPE html>\
+   <html lang="en">\
+   <head>\
+   <meta charset="UTF-8">\
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+   <title>Expedition 33 — Mission Brief</title>\
+   <style>\
+     body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: #fff; background: linear-gradient(270deg, #0a043c, #4a0c25, #7b1b0c, #f9a826); background-size: 800% 800%; animation: bgShift 20s ease infinite; }\
+     @keyframes bgShift { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }\
+     header { text-align: center; padding: 3rem 1rem 1rem; }\
+     header h1 { font-size: 2.8rem; color: #00e5ff; text-shadow: 0 0 10px #00e5ff; }\
+     .container { max-width: 700px; margin: 2rem auto 3rem; background: rgba(255,255,255,0.08); border-radius: 16px; padding: 2rem 2.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }\
+     h2 { color: #00e5ff; margin-top: 1.5rem; }\
+     strong { color: #ffd166; }\
+     footer { text-align: center; font-size: 0.9rem; color: #ddd; padding: 1rem; background: rgba(0,0,0,0.4); }\
+   </style>\
+   </head>\
+   <body>\
+   <header>\
+     <h1>Expedition 33</h1>\
+     <p>Mission Log #E33-00</p>\
+   </header>\
+   <div class="container">\
+     <h2>Mission Brief - Node LUNE (Port 8000)</h2>\
+     <p>Expedition 33 is a digital exploration led by <strong>Lune</strong>, <strong>Sciel</strong>, and <strong>Gustave</strong>.</p>\
+     <h2>Active Nodes</h2>\
+     <ul>\
+       <li><strong>Lune</strong> — Port <strong>8000</strong></li>\
+       <li><strong>Sciel</strong> — Port <strong>8100</strong></li>\
+       <li><strong>Gustave</strong> — Port <strong>8200</strong></li>\
+     </ul>\
+   </div>\
+   <footer>© 2025 Expedition 33 — For Those Who Come After</footer>\
+   </body>\
+   </html>' > /var/www/[node_webserver]/info.html
+   ```
+
+---
+
+2. **Tambahkan konfigurasi server block baru untuk halaman info:**
+
+   Sesuaikan port, direktori root, dan nama node masing-masing.
+
+   ```bash
+   up echo 'server {' >> /etc/nginx/sites-available/default
+   up echo '    listen port;' >> /etc/nginx/sites-available/default          # sesuaikan port
+   up echo '    root /var/www/node;' >> /etc/nginx/sites-available/default   # sesuaikan direktori root node
+   up echo '    index info.html;' >> /etc/nginx/sites-available/default
+   up echo '    server_name gustave33.com expedition.gustave33.com;' >> /etc/nginx/sites-available/default
+   up echo '' >> /etc/nginx/sites-available/default
+   up echo '    # Log Kustom' >> /etc/nginx/sites-available/default
+   up echo '    access_log /tmp/access.log custom_node;' >> /etc/nginx/sites-available/default  # sesuaikan nama node
+   up echo '    error_log /tmp/error.log;' >> /etc/nginx/sites-available/default
+   up echo '' >> /etc/nginx/sites-available/default
+   up echo '    location / {' >> /etc/nginx/sites-available/default
+   up echo '        try_files $uri $uri/ =404;' >> /etc/nginx/sites-available/default
+   up echo '    }' >> /etc/nginx/sites-available/default
+   up echo '}' >> /etc/nginx/sites-available/default
+   ```
+
+---
+
+3. **Hasil konfigurasi port per node:**
+
+   | Node        | Port Aktif       | Keterangan                                                                    |
+   | ----------- | ---------------- | ----------------------------------------------------------------------------- |
+   | **Lune**    | 80, 8000         | Port 80 untuk profil utama, 8000 untuk halaman info                           |
+   | **Sciel**   | 80, 8100         | Port 80 untuk profil utama, 8100 untuk halaman info                           |
+   | **Gustave** | 8080, 8200, 8888 | Port 8080 & 8888 untuk profil utama (akses terbatas), 8200 untuk halaman info |
+
+---
+
+4. **Cek hasil dengan perintah `curl`:**
+
+   ```bash
+   # Lune
+   curl lune33.com:8000
+
+   # Sciel
+   curl sciel33.com:8100
+
+   # Gustave
+   curl gustave33.com:8200
+   ```
+
+   **Hasil:** menampilkan halaman **info.html** Expedition 33 pada masing-masing port sesuai konfigurasi.
+   Jika mencoba port lain yang tidak dikonfigurasi (misalnya `curl gustave33.com:80`), maka hasilnya akan **gagal (connection refused)** karena server tidak mendengarkan di port tersebut.
+
+---
+
+5. **Tujuan pengaturan port ini:**
+
+   * Untuk **membedakan layanan utama dan halaman informasi**. Profil masing-masing node tetap di port lama, sedangkan halaman informasi umum Expedition 33 tersedia di port baru.
+   * Port berbeda digunakan agar **setiap layanan dapat diatur atau diuji secara terpisah** tanpa bentrok dengan konfigurasi utama.
+   * Dengan demikian, masing-masing node punya:
+
+     * **Situs utama (profil individual)**
+     * **Situs tambahan (halaman info bersama)**
+       yang bisa diakses hanya pada port tertentu.
+
+---
+
+## Soal 9
+
+> Untuk mempermudah akses ke profil tiap anggota ekspedisi, buatlah 1 domain lagi yaitu "expeditioners.com" yang akan mengarah ke Alicia. Lalu, untuk mencegah overload dari salah satu web server, konfigurasikan reverse proxy Alicia agar bisa forward request ke server yang sesuai berdasarkan URL profile yang diminta oleh klien dengan ketentuan sebagai berikut:
+> -  Request untuk “expeditioners.com/profil_lune” harus dialihkan ke halaman profil web server Lune.
+> -  Request untuk “expeditioners.com/profil_sciel” harus dialihkan ke halaman profil web server Sciel.
+> -  Request untuk “expeditioners.com/profil_gustave” harus dialihkan ke halaman profil web server Gustave.
+> Jika terdapat request ke URL selain profil yang ditentukan, reverse proxy akan mengalihkan ke halaman informasi pada web server Lune.
+
+> _To make it easier to access each member’s profile, create a new domain “expeditioners.com” that points to Alicia. "
+Configure Alicia’s reverse proxy (Nginx) to forward requests to the correct web server based on the requested URL, with the following rules:_
+> _- Request URL expeditioners.com/profil_lune, Forward To Lune’s profile page_
+> _- Request URL expeditioners.com/profil_sciel, Forward To Sciel’s profile page_
+> _- Request URL expeditioners.com/profil_gustave, Forward To Gustave’s profile page_
+> _- Any other URL, Forward To Lune’s information page_
+
+**Answer:**
+
+- Screenshot
+
+  `Put your screenshot in here`
 
 - Explanation
 
-  Masih di `Protocol Hieracrchy` yang sama dari pertanyaan sebelumnya, menghitung jumlah protocol yang ada dibawah TCP. 
+  `Put your explanation in here`
 
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=162mWmpyGtvcr6VYF8eZYrdRHGAScmEwU)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1O_6viJd6M4paPBl9RL1kFiTg4hrnfqWa)
+<br>
+
+## Soal 10
+
+> Untuk mendistribusikan traffic halaman informasi, atur Reverse Proxy Alicia agar dapat membagi pekerjaan kepada web server Lune, Sciel, dan Gustave secara optimal menggunakan algoritma Round-robin. Pastikan target pembagian load merupakan halaman informasi, bukan halaman profil masing-masing web server.
+
+> _To distribute traffic for the information page, configure the reverse proxy (Alicia) to use Round-robin load balancing between the three web servers: Lune, Sciel, and Gustave.
+Ensure that only the information page is included in the load-balancing configuration - not the profile pages._
+
+**Answer:**
+
+- Screenshot
+
+  `Put your screenshot in here`
+
+- Explanation
+
+  `Put your explanation in here`
+
+<br>
   
-  <br>
-  <br>
-
-> d. Ada berapa banyak packet dengan protokol TCP murni yang terekam pada traffic (tanpa data)?
-
-> _d. How many packets with pure TCP protocol are recorded in the traffic (without data)?_
-
-**Answer:** `3223`
-
-- Filter expression
-
-  `tcp.len == 0`
-
-- Explanation
-
-  Mencari `tcp` yang `length`-nya 0, karena itu menandakan bahwa paket itu tidak ada data. Melihat hasil display di status bar bawah Wireshark dan **tambahkan 1** (Mohon maaf jujur ini kebetulan dapat jawabannya soalnya saya coba-coba aja -1, -2, +1 seperti itu).
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1pJJoMypvImdnYXObwmJTSYQTje08aTp6) 
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1O_6viJd6M4paPBl9RL1kFiTg4hrnfqWa)
-
-## Task 2
-
-- Flag
-
-  `JARKOM25{N1c3_0ne_b4nggg_WZINVTZTWVyuMM13yuugyzscaedgtnqsccylkc3r4t0ps93475418759213352711_750b999b1ad00443bc0c76af6cc7c3eb}`
-
-> a. Berapa banyak packet berhasil yang berbasis murni TCP dan memiliki flag [ACK]?
-
-> _a. How many packets succeed that are pure TCP based and have [ACK] flag?_
-
-**Answer:** `3209`
-
-- Filter expression
-
-  `tcp.len == 0 && tcp.flags.ack == 1`
-
-- Explanation
-
-  Menggunakan `tcp.len == 0` sebelumnya untuk TCP murni **AND** (`&&`) `tcp.flags.ack == 1` untuk mencari tcp yang mempunyai **setidaknya satu** flag [ACK]. Melihat jumlah _Displayed_ di status bar bawah Wireshark untuk mendapatkan jumlahnya. Namun, packet `No. 919` tidak berhasil di daftar packet, maka jumlah tadi **dikurangi satu**.
-  
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1qepXuCVqZoUHgetlhzdnmZomfOdMGYXC)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1GZN2s1jLE28XHzJFHfbeje66APKQ2Loa)
-
-  <br>
-  <br>
-
-> b. Berapa banyak packet berhasil yang berbasis murni TCP yang hanya memiliki flag [ACK]?
-
-> _b. How many packets succeed that are pure TCP based and have only [ACK] flag?_
-
-**Answer:** `3172`
-
-- Filter expression
-
-  `tcp.len == 0 && tcp.flags == 0x10`
-
-- Explanation
-
-  Menggunakan `tcp.len == 0` sebelumnya untuk TCP murni **AND** (`&&`) `tcp.flags == 0x10` untuk mencari tcp yang **hanya** memiliki flag [ACK]. `0x10` merupakan kode Hex flag yang mempunyai [ACK] saja. Namun, packet `No. 919` & `No. 2560` tidak berhasil di daftar packet, maka jumlah tadi **dikurangi dua**.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1sjbnkU5tGEgo5FF7KCti0GkhWdeFrl11)
-  ![](https://drive.google.com/uc?export=view&id=1PMHFem59Z81_IchU-lRsKgpd7kA3tblN)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1GZN2s1jLE28XHzJFHfbeje66APKQ2Loa)
-
-  <br>
-  <br>
-
-> c. Berapa banyak packet berhasil yang berbasis murni TCP dan memiliki flag selain hanya [ACK]?
-
-> _c. How many packets succeed that are pure TCP based and contain flags other than just [ACK] flag?_
-
-**Answer:** `49`
-
-- Filter expression
-
-  `tcp.len == 0 && !(tcp.flags == 0x10)`
-
-- Explanation
-
-  Menggunakan `tcp.len == 0` sebelumnya untuk TCP murni **AND** (`&&`) `!(tcp.flags == 0x10)` yang berarti ini kebalikan dari pertanyaan sebelumnya dengan mencari tcp yang **bukan hanya** memiliki flag [ACK]. Hasil _displayed_ **ditambah 1** (Sama seperti task 1, saya juga coba dikurangi ditambahin setelah liat jawaban `48` salah).
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1aulqB_8mkSi1VWnz0yj9ad0kuEAIFWzw)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1GZN2s1jLE28XHzJFHfbeje66APKQ2Loa)
-
-  <br>
-  <br>
-
-## Task 3
-
-- Flag
-
-  `JARKOM25{W0w_Y0uU_h4V33e_d0n3_444_90od_j0bB_LVSQHg0dl1k33u3j4c7vxdvvugutrmfurt_ae23772b2c286278f8469a7068fec84a}`
-
-> a. Pada port berapa client telnet terbuka?
-
-> _a. In what port is the telnet client open?_
-
-**Answer:** `54184`
-
-- Filter expression
-
-  `telnet`
-
-- Explanation
-
-Display filter `telnet` untuk menunjukkan semua packet dengan protocol telnet. Klik pada packet kedua (dari client) dan lihat bagian **Details**nya. Terdapat ada "Src Port: ..., Dst Port: ...", kita ambil **Src Port** untuk menjawab pertanyaan.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1acb0f2NdRHw0vrzYaKFi7Ie5ivNmUfvz)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1jBtdYL4yo78TLM2fFmfInOcK75gT9V9c)
-
-  <br>
-  <br>
-
-> b. Berapa byte file response yang dikirim dari server?
-
-> _b. How many bytes of the response files are sent from the server?_
-
-**Answer:** `1449`
-
-- Filter expression
-
-  `telnet`
-
-- Explanation
-
-  Di soal sebelumnya kita bisa lihat source port, tetapi bisa juga lihat source dan destination IP nya dari bagian Details. Maka, kita dapat bahwa `source IP : 172.16.16.101` & `destination IP : 172.16.16.102`.
-
-  Masih dengan filter `telnet` sebelumnya, `klik kanan salah satu packet -> Follow -> TCP Stream`. Lihat bagian bawah dari jendela yang dibuka, dan cari drop down list, klik listnya, dan ambil byte yang `172.16.16.101 -> 172.16.16.102` (response).
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1o4o--CH3RuVNuXmOgG--AS6C44H3W-XG)
-  ![](https://drive.google.com/uc?export=view&id=1zWfBtTYXHC7Ni_Pw5BKp6BZb5UOXYcEI)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1jBtdYL4yo78TLM2fFmfInOcK75gT9V9c)
-
-  <br>
-  <br>
-
-> c. Apa username yang digunakan client telnet untuk berhubungan dengan server?
-
-> _c. What telnet client's username is used to connect with the server?_
-
-**Answer:** `jovyan`
-
-- Filter expression
-
-  `-`
-
-- Explanation
-
-  Masih di `Follow -> TCP Stream` tadi, bisa dilihat username di streamnya. Walaupun semua karakter ter-double, bisa didapatkan "login : jovyan".
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1kZc-ma01dlo1HTJxnSgQHbhWVm3t72HJ)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1jBtdYL4yo78TLM2fFmfInOcK75gT9V9c)
-
-  <br>
-  <br>
-
-> d. Apa password client telnet?
-
-> _d. What is the telnet client's password?_
-
-**Answer:** `123`
-
-- Filter expression
-
-  `-`
-
-- Explanation
-
-  Sama dengan penjelasan pertanyaan sebelumnya, bisa dilihat di stream ada "password : 123".
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1IzVlnqvPN0tmfjvfdHSa0EHGi-8YeMco)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1jBtdYL4yo78TLM2fFmfInOcK75gT9V9c)
-
-  <br>
-  <br>
-
-## Task 4
-
-- Flag
-
-  `JARKOM25{G04t__a4n4liz333er_MFM1MQK77GM85WX5WA0Tfr0gq2xs00gbki2awfxr3ys4959079197_bb99c59eee25af662d02b5f9334473cc}`
-
-> a. Apa perintah pertama yang ditulis client pada koneksi telnet?
-
-> _a. What is the first command that client wrote on telnet connection?_
-
-**Answer:** `echo`
-
-- Filter expression
-
-  `-`
-
-- Explanation
-
-  Masih di TCP stream seperti di pertanyaan terakhir soal sebelumnya, bisa dilihat di stream bahwa pertama dilaksanakan `echo "Falle.kkeFlag{LinngGangGu_...}"`.
-
-- Output result
-  <br><br>**Wireshark :** 
-  ![](https://drive.google.com/uc?export=view&id=1g3wWlDdKde0sSFZePU3g4f1pQadVvKmD)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1A_GcKZoGoGVTz_UUwfwwJZ_0FbvIsLCx)
-
-  <br>
-  <br>
-
-> b. Apa nama file .txt di server (ditulis bersama ekstensinya)?
-
-> _b. What is the name of .txt file on the server (write with the extension)?_
-
-**Answer:** `test.txt`
-
-- Filter expression
-
-  `-`
-
-- Explanation
-
-  Sama dengan soal sebelumnya, di stream dapat dilihat ada dilaksanakan `cat test.txt`
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1bn2LN8f3XfKZeXWUC9kRr6D49JTak-YP)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1A_GcKZoGoGVTz_UUwfwwJZ_0FbvIsLCx)
-
-  <br>
-  <br>
-
-> c. Apa kata pertama dari frasa yang dimasukkan client ke dalam file sebelumnya?
-
-> _c. What is the first word that the client inserted into the previous file?_
-
-**Answer:** `Jarkom`
-
-- Filter expression
-
-  `-`
-
-- Explanation
-
-  Sama dengan soal sebelumnya, di stream dapat dilihat ada dilaksanakan `echo "N. Jarkom gampang " > test.txt`
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1-MJDG0iCaJvT4sKxJXq97Vrth3lr6Lty)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1A_GcKZoGoGVTz_UUwfwwJZ_0FbvIsLCx)
-
-  <br>
-  <br>
-
-## Task 5
-
-- Flag
-
-  `JARKOM25{n4il0ng_m1lk_dr4g000n_3WG7MCF320GSPE2UW95AHWKCT3IRQHcr0ctvzou9ire7kyuvrhts00b438_7c7ff557a26d8f2d9f9eabf5021a600e}`
-
-> a. Berapa banyak packet berbasis HTTP yang terekam pada file pcapng?
-
-> _a. How many HTTP packets are recorded in the pcapng file?_
-
-**Answer:** `298`
-
-- Filter expression
-
-  `http.request or http.response`
-
-- Explanation
-
-  `http.request` untuk menunjukkan packet request dan `http.response` untuk menunjukkan packet respons. Menggunakkan operator OR agar gabungan dari dua-duanya bisa muncul. Lihat jumlah dari _Displayed_ di status bar bawah.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1RWP01BC9804X5qIhIQtCoLbKWFswgCE2)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1jZHk00ksera7er9Hc7nVJhHLhibSJCIA)
-
-  <br>
-  <br>
-
-> b. Ada berapa HTTP packet yang berupa response?
-
-> _b. How many response HTTP packets are recorded in the traffic?_
-
-**Answer:** `149`
-
-- Filter expression
-
-  `http.response`
-
-- Explanation
-
-  Hanya mengeluarkan `http.request` dari pertanyaan sebelumnya agar yang diperlihatkan hanya packet respons. Lihat jumlah dari _Displayed_ di status bar bawah.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1qqdo9xGqpPgsq7fBf_G0zozKMDczomWN)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1jZHk00ksera7er9Hc7nVJhHLhibSJCIA)
-
-  <br>
-  <br>
-
-> c. Ada berapa paket berbasis HTTP yang berhasil?
-
-> _c. How many HTTP packets that succeed?_
-
-**Answer:** `296`
-
-- Filter expression
-
-  `http.request or http.response`
-
-- Explanation
-
-  Dengan menelusuri list packet `http.request or http.response` dapat ditemukan dua packet yang tidak berhasil direkam. Jadi, jumlah total packet http **dikurangi dua**.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1KkctyET-lkhuh_y81QXadgmdApl8Zu6d)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1jZHk00ksera7er9Hc7nVJhHLhibSJCIA)
-
-  <br>
-  <br>
-
-> d. Apa alamat IP dari client HTTP yang tersambung lokal dengan mesin lain?
-
-> _d. What is the client HTTP IP Address in connection with other local machine?_
-
-**Answer:** `172.16.16.101`
-
-- Filter expression
-
-  `http.request or http.response`
-
-- Explanation
-
-  Select salah satu packet di `http.request or http.response` dan melihat `Src : ...` di bagian Details untuk mendapatkan IP source (client).
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1YtnYL8jYfnXNTRAaN3gsQ72LC61j9ZqC)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1jZHk00ksera7er9Hc7nVJhHLhibSJCIA)
-
-  <br>
-  <br>
-
-## Task 6
-
-- Flag
-
-  `JARKOM25{br0mb44rdin0u_Cr0ccc0c0c0cdi1l10l_1587796855awaesacraf4448rvsh1n0buMR4S4X3XFATINRG_bf362d46ed05fef570153fecaac5b888}`
-
-> a. Apakah kamu menemukan fake flag? Tuliskan seluruhnya!
-
-> _a. Did you find the fake flag? Write it whole!_
-
-**Answer:** `FakeFlag{JarkomGampang}`
-
-- Filter expression
-
-  `http contains "flag.txt"`
-
-- Explanation
-
-  Mengikuti clue yang diberikan, mencari `flag.txt` dengan `contains`. Mencari dalam protocol `http` karena mengikuti soal-soal sebelumnya yang berkaitan dengan `http`. Setelah ketemu packet yang ada `flag.txt` nya, `Follow -> TCP Stream` dan akan ketemu stream.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1yerg-QmspUG1wcKh5nhqp0CI2S-FE0_Z)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1nmhJZlT_7g-HhYjDJEok70YW8aVvlWuW)
-
-  <br>
-  <br>
-
-> b. Tuliskan username dan password yang tertulis! (format username:password)
-
-> _b. Write the written username and password! (format username:password)_
-
-**Answer:** `Rey:123`
-
-- Filter expression
-
-  `http contains "passwd.txt"`
-
-- Explanation
-
-  Sama dengan pertanyaan sebelumnya, tapi sekarang mencari "`passwd.txt`. Setelah ketemu dengan menggunakan filter, `Follow -> TCP Stream` untuk mendapatkan username dan passwordnya dalam stream.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1HRxYpGrKcFmBcBomXbYJqbca-ScO2gmO)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1nmhJZlT_7g-HhYjDJEok70YW8aVvlWuW)
-
-  <br>
-  <br>
-
-## Task 7
-
-- Flag
-
-  `JARKOM25{tr4l4lel0_tr1lil1_k088d1f57gk3b0s0s9SXQ2075T7EYWWA_c2f431cf19c249333917a05a12605161}`
-
-> Apa nama gambar yang direquest oleh client? (tulis dengan ekstensinya)
-
-> _What is the image that is being requested by the client? (write with its extension)_
-
-**Answer:** `donalbebek.jpg`
-
-- Filter expression
-
-  `http.request.uri contains ".jpg"`
-
-- Explanation
-
-  `http.request.url` karena yang diminta soal "direquest". Mencari dengan filter `contains` setiap ekstensi file gambar (`.jpg`, `.png`, dll.) sampai ketemu.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1B0sQINIcZ0p5iDxwJ2TKIPhmt8Z4hZfW)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1qIRoHC6xa3Z96bII5Y2WbUavyyn8K8d4)
-
-  <br>
-  <br>
-
-## Task 8
-
-- Flag
-
-  `JARKOM25{y0u_4r3_s0_G00d_1n_F0r3nsic_HH5G9QLYM54V6H6755MTIA2DAUUMW7x45y4n6obsze6i71kwivilnykvoaa7_de009d3c1d04818a4a089b721667311b}`
-
-> a. Berapa banyak packet berbasis FTP yang terekam pada file pcapng? (with the data)
-
-> _a. How many FTP packets are recorded in the pcapng file? (with the data)_
-
-**Answer:** `81`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  `ftp` untuk menunjukkan paket-paket ftp (tanpa data), `ftp-data` untuk menunjukkan paket yang ada data. Lihat jumlah dari _Displayed_ di status bar bawah.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=10AfzEC7GfgA3uYSHKB5XuexROR-8Givk)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1czKjnN4MjovkCq4FsCWhsJmKyGHCEX_G)
-
-  <br>
-  <br>
-
-> b. Apa username dan password client di koneksi FTP? (tulis dalam format username:password)
-
-> _b. What is the client's username and password in FTP connection? (write in following format username:password)_
-
-**Answer:** `rey:password123lingangu`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  Select salah satu paket yang `ftp` (tanpa data) dan `Follow -> TCP Stream`. Bisa dilihat dari stream ada username dan passwordnya di paling atas.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1GbbUN-jn7HOpydVpE3JLF_-IBDrH7QWb)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1czKjnN4MjovkCq4FsCWhsJmKyGHCEX_G)
-
-  <br>
-  <br>
-
-> c. What is the client's command for showing server directory that was sent on request packet?
-
-> _c. Apa command client untuk melihat direktori server yang dikirimkan dalam request packet?_
-
-**Answer:** `LIST`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  Hanya melihat bagian info di list packet yang keluar saat menggunakan filter secara berurutan. Bisa dilihat urutan request adalah `USER`, `PASS`, `SYST`, dst. Dari semua itu, command yang berfungsi untuk melihat direktori adalah `LIST`.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1ovBlump-JBtskGDg_GS2FVZsqTu1q1bp)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1czKjnN4MjovkCq4FsCWhsJmKyGHCEX_G)
-
-  <br>
-  <br>
-
-## Task 9
-
-- Flag
-
-  `JARKOM25{j4rk000000mmm_g4mpp4444n9999999_41811367688i41L4hfpmmckaci0321k0ncol83ZNF7TSQX97GRR_a13eaf68f29f5e1f04191a7175970787}`
-
-> a. Apa alamat IP dari FTP server?
-
-> _a. What is the FTP server IP Address?_
-
-**Answer:** `172.16.16.101`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  Dapatkan source IP dari paket ftp pertama.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1cF8rQdQuO9-6bp7LuPg-FS3jfBvgDUwz)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1nauucIi-cHUlMPthncKrm2z6_ZoOR52b)
-
-  <br>
-  <br>
-
-> b. Berapa banyak file yang ada dalam direktori FTP server?
-
-> _b. How many files are there inside the FTP server directory?_
-
-**Answer:** `7`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  Cari paket yang request `LIST`, kemudian temukan paket dengan protocol `ftp-data` yang terdekat. `Follow -> TCP Stream` dari paket `ftp-data` yang ditemukan. Dari stream yang diperlihatkan, hitung berapa banyak file (directory nya sendiri tidak termasuk).
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1NifgfGPOHffIyaIupg2g1fSszhTuWcW5)
-  ![](https://drive.google.com/uc?export=view&id=1qAbzhpG1MbFdt3ZaS1NpbMCsZfpUFmxu)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1nauucIi-cHUlMPthncKrm2z6_ZoOR52b)
-
-  <br>
-  <br>
-
-> c. Apa nama dari file yang digunakan dalam page.html? (tulis lengkap namanya beserta ekstensinya dan dipisahkan dengan koma ',')
-
-> _c. What are the filenames used in the page.html? (write the filebames with their extensions and separate them with comma ',')_
-
-**Answer:** `pokijan.jpg,research_center.jpg`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  Cari paket yang request `RETR page.html` (`RETR` adalah command untuk mengunduh file), kemudian temukan paket dengan protocol `ftp-data` yang terdekat. `Follow -> TCP Stream` dari paket `ftp-data` yang ditemukan. Dari stream yang diperlihatkan, dapatkan nama-nama file image yang digunakan di kode html.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1xnWGE-Vxyl0lHJm7WscU-9geu8gbPSPL)
-  ![](https://drive.google.com/uc?export=view&id=1ErGRlGzLzEmUpCZFBhlS2JpdLWt4PKCd)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1nauucIi-cHUlMPthncKrm2z6_ZoOR52b)
-
-  <br>
-  <br>
-
-## Task 10
-
-- Flag
-
-  `JARKOM25{f1nisssshs55s5s533s_l1n333ee333E3_88044872072910yesgvkvtxh345215123123QC6KJKX44W7X2UA_e78da974a9b5d24a7c8a3cd76be595c1}`
-
-> a. Apa nama file yang mengandung string terencode?
-
-> _a. What is the filename that contains encoded string?_
-
-**Answer:** `secret.txt`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  Karena yang dicari adalah file dengan string, maka bisa diasumsi file yang kita cari bertipe .txt atau sejenisnya. Cari di daftar paket yang ada `RETR [...].txt` dan cari paket `ftp-data` terdekat untuk memastikan ada encoded string dalam stream. Jika ada, maka file itu benar yang kita cari.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1k9S1HTNI292m7df90BcH7_KggG725U09)
-  ![](https://drive.google.com/uc?export=view&id=1v_VujXtbEl-vxIyEubMwhRvaaBpwJp4S)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1DA5HqEVUyf39NmiFiSub8YcvkOAVkKNo)
-
-  <br>
-  <br>
-
-> b. Apa nama file hasil copy file sebelumnya?
-
-> _b. What is the filename of the previous file copy?_
-
-**Answer:** `secret1.txt`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  Setelah dapat file sebelumnya, cari di daftar paket apakah ada request `STOR` (artinya client medownload file sebelumnya (`RETR`) dan mengupload lagi file (`STOR`) hasil copy. Nama file yang di-`STOR` adalah jawabannya.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1bU0g3ItIAQQ7WABPv0GX0FWZ0FrkZK7L)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1DA5HqEVUyf39NmiFiSub8YcvkOAVkKNo)
-
-  <br>
-  <br>
-
-> c. What is the decoded string from the previous file?
-
-> _c. Apa decoded string dari file tersebut?_
-
-**Answer:** `Pada suatu hari Rey bertemu dengan Nailong the Milk Dragon. Ketika bertemu, Rey mengajarkan Nailong apa itu Jaringan Komputer. Nailong pun senang karena ternyata Jaringan Komputer itu gampang.`
-
-- Filter expression
-
-  `ftp or ftp-data`
-
-- Explanation
-
-  Dari stream salah satu file `.txt` sebelumnya, kita masukkan di _cipher identifier_ sesuai dengan clue. Setelah teridentifikasi pakai cipher apa, kita pakai _decoder_ sesuai dengan tipe cipher untuk mendapatkan string original nya. Di soal ini, kita ketemu bahwa memakai **cipher Base64**.
-
-- Output result
-  <br><br>**Wireshark :**
-  ![](https://drive.google.com/uc?export=view&id=1v_VujXtbEl-vxIyEubMwhRvaaBpwJp4S)
-  ![](https://drive.google.com/uc?export=view&id=1OtUR1dyGnbpzt758n3IhVY-nn8RcjNYW)
-  ![](https://drive.google.com/uc?export=view&id=1eIdnmkrVS2Sq5IxRcMB_minahisb1YQ9)
-  <br><br>**Terminal :**
-  ![](https://drive.google.com/uc?export=view&id=1DA5HqEVUyf39NmiFiSub8YcvkOAVkKNo)
-
-  <br>
-  <br>
-
-## Summary
-
-Dari Praktikum ini kita belajar cara mengoperasikan Wireshark, cara memilah paket-paket yang terlihat untuk menyelesaikan soal, dan kebanyak soal bisa diselesaikan dengan `Follow -> TCP Stream` 😁.
-
-<br> <br>
 ## Problems
+mas/mba maaf tolong
 
-Ada masalah di awal saja sih, masih agak kurang kenal cara memakai Wireshark, tapi setelah tahap learning curve di awal sudah mengerti bagaimana mengerjakan soal-soalnya.
+## Revisions (if any)
